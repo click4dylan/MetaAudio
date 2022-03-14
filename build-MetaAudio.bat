@@ -1,8 +1,4 @@
-mkdir "%temp%\OpenAL-SDK"
-
-xcopy "%~dp0OpenAL-SDK\" "%temp%\OpenAL-SDK\" /y /e
-
-call cmake -B "build" -A Win32 -D "OPENAL_INCLUDE_DIR=%temp%\OpenAL-SDK\include" -D "OPENAL_LIBRARY=%temp%\OpenAL-SDK\libs\Win32\OpenAL32.lib"
+;call cmake -B "build" -A Win32 -D "OPENAL_INCLUDE_DIR=%temp%\OpenAL-SDK\include" -D "OPENAL_LIBRARY=%temp%\OpenAL-SDK\libs\Win32\OpenAL32.lib"
 
 call powershell -Command "(gc build\MetaAudio.vcxproj) -replace 'Label=\"PropertySheets\">', 'Label=\"PropertySheets\" ><Import Project=\"..\global.props\" /><Import Project=\"..\MetaAudio.props\" />' | Out-File build\MetaAudio.vcxproj"
 
@@ -23,5 +19,3 @@ if exist "%InstallDir%\Common7\Tools\vsdevcmd.bat" (
     MSBuild.exe "build\MetaAudio.sln" /t:MetaAudio /p:Configuration=Release /p:Platform="Win32"
     MSBuild.exe "build\MetaAudio.sln" /t:metahook /p:Configuration=Release /p:Platform="Win32"
 )
-
-rmdir /s /q "%temp%\OpenAL-SDK"

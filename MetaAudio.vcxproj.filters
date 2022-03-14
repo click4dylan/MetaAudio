@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\exportfuncs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\metaaudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Effects\EnvEffects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\SteamAudioMapMeshLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\snd_hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Voice\VoiceDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Vox\VoxManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\LocalAudioDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Utilities\AudioCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Config\EfxJsonReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Effects\GoldSrcOcclusionCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Effects\SteamAudioOcclusionCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Utilities\Fade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Workarounds\NoWorkarounds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Workarounds\XFiWorkarounds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\GoldSrcFileBuf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\GoldSrcFileStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\GoldSrcFileFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Loaders\SoundLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\AudioEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\Utilities\ChannelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\snd_local.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\SoundSources\SoundSourceFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\SoundSources\BaseSoundSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\SoundSources\StaticSoundSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\nightfire_sdk\MetaAudio\src\SoundSources\StreamingSoundSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\nightfire_sdk\MetaAudio\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8B5C996D-C662-33DD-A761-40CEEBF04653}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

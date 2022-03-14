@@ -7,131 +7,9 @@
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${projectDir}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\MetaAudio\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DSNDFILE_LIBRARY=\"F:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\lib\\\\libsndfile-1.lib\" -DSNDFILE_INCLUDE_DIR=\"F:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\include\" -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALURE_INSTALL=OFF -DALURE_BUILD_STATIC=OFF -DALURE_ENABLE_WAVE=OFF -DALURE_ENABLE_VORBIS=OFF -DALURE_ENABLE_FLAC=OFF -DALURE_ENABLE_SNDFILE=ON -DALURE_BUILD_EXAMPLES=OFF",
+      "cmakeCommandArgs": "-DSNDFILE_LIBRARY=\"C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\lib\\\\libsndfile-1.lib\" -DSNDFILE_INCLUDE_DIR=\"C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\include\" -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALURE_INSTALL=ON -DALURE_BUILD_STATIC=ON -DALURE_ENABLE_WAVE=ON -DALURE_ENABLE_VORBIS=ON -DALURE_ENABLE_FLAC=ON -DALURE_ENABLE_SNDFILE=ON -DALURE_BUILD_EXAMPLES=OFF",
       "buildCommandArgs": "-v",
-      "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "OPENAL_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\OpenAL 1.1 SDK\\\\include",
-          "type": "PATH"
-        },
-        {
-          "name": "OPENAL_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\OpenAL 1.1 SDK\\\\libs\\\\Win32\\\\OpenAL32.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "SDL2_CORE_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\x86\\\\SDL2.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "SDL2_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\include",
-          "type": "PATH"
-        },
-        {
-          "name": "SDL2MAIN_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\x86\\\\SDL2main.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "WINMM_LIBRARY",
-          "value": "C:\\\\Program Files (x86)/Windows Kits/8.1/Lib/winv6.3/um/x86/WinMM.Lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "ALURE_ENABLE_VORBIS",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "ALURE_ENABLE_WAVE",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "ALURE_BUILD_STATIC",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "SNDFILE_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\include",
-          "type": "STRING"
-        },
-        {
-          "name": "SNDFILE_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\lib\\\\libsndfile-1.lib",
-          "type": "STRING"
-        },
-        {
-          "name": "ALURE_INSTALL",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "ALURE_ENABLE_FLAC",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "OGG_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\ogg\\\\include",
-          "type": "PATH"
-        },
-        {
-          "name": "OGG_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\ogg\\\\win32\\\\VS2015\\\\Win32\\\\Release\\\\libogg.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "FORCE_STATIC_VCRT",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "OPUS_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\opus\\\\include",
-          "type": "PATH"
-        },
-        {
-          "name": "OPUS_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\opus\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\opus.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "OPUSFILE_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\opusfile\\\\win32\\\\VS2015\\\\Win32\\\\Release-NoHTTP\\\\opusfile.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "VORBIS_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\libvorbis_static.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "VORBISFILE_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\libvorbisfile_static.lib",
-          "type": "FILEPATH"
-        },
-        {
-          "name": "VORBIS_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\include",
-          "type": "PATH"
-        },
-        {
-          "name": "ALSOFT_BACKEND_SDL2",
-          "value": "True",
-          "type": "BOOL"
-        },
-        {
-          "name": "ALURE_DISABLE_RTTI",
-          "value": "True",
-          "type": "BOOL"
-        }
-      ]
+      "ctestCommandArgs": ""
     },
     {
       "name": "x86-Release",
@@ -144,24 +22,49 @@
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "variables": [
+		{
+		  "name": "OPENAL_INCLUDE_DIR",
+          "value": "C:\\Program Files (x86)\\OpenAL 1.1 SDK\\include",
+          "type": "PATH"
+		},
+		{
+		  "name": "OPENAL_LIBRARY",
+          "value": "C:\\Program Files (x86)\\OpenAL 1.1 SDK\\libs\\Win32\\OpenAL32.lib",
+          "type": "FILEPATH"
+		},
+        {
+          "name": "VORBISFILE_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\libvorbisfile_static.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "VORBIS_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\libvorbis_static.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "VORBIS_INCLUDE_DIR",
+          "value": "C:\\\\Program Files (x86)\\\\vorbis\\\\include",
+          "type": "PATH"
+        },
         {
           "name": "SNDFILE_LIBRARY",
           "value": "C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\lib\\\\libsndfile-1.lib",
-          "type": "STRING"
+          "type": "FILEPATH"
         },
         {
           "name": "SNDFILE_INCLUDE_DIR",
           "value": "C:\\\\Program Files (x86)\\\\Mega-Nerd\\\\libsndfile\\\\include",
-          "type": "STRING"
-        },
-        {
-          "name": "WINMM_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\Windows Kits\\\\8.1\\\\Lib\\\\winv6.3\\\\um\\\\x86\\\\WinMM.Lib",
-          "type": "FILEPATH"
+          "type": "PATH"
         },
         {
           "name": "SDL2MAIN_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\\\x86\\\\SDL2main.lib",
+          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\x86\\\\SDL2main.lib",
+          "type": "FILEPATH"
+        },
+		{
+          "name": "SDL2_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\x86\\\\SDL2.lib",
           "type": "FILEPATH"
         },
         {
@@ -171,43 +74,33 @@
         },
         {
           "name": "SDL2_CORE_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\\\x86\\\\SDL2.lib",
+          "value": "C:\\\\Program Files (x86)\\\\SDL\\\\lib\\\\x86\\\\SDL2.lib",
           "type": "FILEPATH"
         },
         {
-          "name": "OPENAL_LIBRARY",
-          "value": "C:\\\\Program Files (x86)\\\\OpenAL 1.1 SDK\\\\libs\\\\Win32\\\\OpenAL32.lib",
+          "name": "OPUSFILE_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\opusfile\\\\win32\\\\VS2015\\\\Win32\\\\Release-NoHTTP\\\\opusfile.lib",
           "type": "FILEPATH"
         },
         {
-          "name": "OPENAL_INCLUDE_DIR",
-          "value": "C:\\\\Program Files (x86)\\\\OpenAL 1.1 SDK\\\\include",
+          "name": "OPUS_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\opus\\\\win32\\\\VS2010\\\\Win32\\\\Release\\\\opus.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "OPUS_INCLUDE_DIR",
+          "value": "C:\\\\Program Files (x86)\\\\opus\\\\include",
           "type": "PATH"
         },
         {
-          "name": "ALURE_INSTALL",
-          "value": "ON",
-          "type": "STRING"
+          "name": "OGG_INCLUDE_DIR",
+          "value": "C:\\\\Program Files (x86)\\\\ogg\\\\include",
+          "type": "PATH"
         },
         {
-          "name": "ALURE_ENABLE_WAVE",
-          "value": "ON",
-          "type": "STRING"
-        },
-        {
-          "name": "ALURE_ENABLE_VORBIS",
-          "value": "ON",
-          "type": "STRING"
-        },
-        {
-          "name": "ALURE_ENABLE_FLAC",
-          "value": "ON",
-          "type": "STRING"
-        },
-        {
-          "name": "ALURE_BUILD_STATIC",
-          "value": "ON",
-          "type": "STRING"
+          "name": "OGG_LIBRARY",
+          "value": "C:\\\\Program Files (x86)\\\\ogg\\\\win32\\\\VS2015\\\\Win32\\\\Release\\\\libogg.lib",
+          "type": "FILEPATH"
         }
       ]
     }
