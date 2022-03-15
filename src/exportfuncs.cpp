@@ -15,8 +15,8 @@ void Sys_ErrorEx(const char *fmt, ...)
   _vsnprintf_s(msg, sizeof(msg), fmt, argptr);
   va_end(argptr);
 
-  if (gEngfuncs.pfnClientCmd)
-    gEngfuncs.pfnClientCmd("escape\n");
+  if (g_pEngfuncs->ClientCmd)
+      g_pEngfuncs->ClientCmd("escape\n");
 
   MessageBox(NULL, msg, "Error", MB_ICONERROR);
   exit(0);

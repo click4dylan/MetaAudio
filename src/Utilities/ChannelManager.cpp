@@ -6,7 +6,7 @@ namespace MetaAudio
 {
   ChannelManager::ChannelManager()
   {
-    al_xfi_workaround = gEngfuncs.pfnGetCvarPointer("al_xfi_workaround");
+    al_xfi_workaround = g_pEngfuncs->GetConsoleVariableClient("al_xfi_workaround");
   }
 
   bool ChannelManager::IsPlaying(sfx_t* sfx)
@@ -135,7 +135,7 @@ namespace MetaAudio
         return false;
       }
 
-      auto entity = gEngfuncs.GetEntityByIndex(channel.entnum);
+      auto entity = g_pEngfuncs->GetEntityByIndex(channel.entnum);
       return entity == nullptr;
     };
 

@@ -45,12 +45,12 @@ namespace MetaAudio
     // check map
     bool paused = false;
     {
-      cl_entity_s* map = gEngfuncs.GetEntityByIndex(0);
+      cl_entity_s* map = g_pEngfuncs->GetEntityByIndex(0);
       if (map == nullptr ||
           map->model == nullptr ||
           map->model->needload ||
-          gEngfuncs.pfnGetLevelName() == nullptr ||
-          _stricmp(gEngfuncs.pfnGetLevelName(), map->model->name) != 0)
+          g_pEngfuncs->GetLevelName() == nullptr ||
+          _stricmp(g_pEngfuncs->GetLevelName(), map->model->name) != 0)
       {
         paused = true;
       }

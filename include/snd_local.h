@@ -98,7 +98,7 @@ struct aud_engine_t
   int *cszrawsentences;
 
   //s_dma.c
-  void(*S_Startup)(void);//hooked
+  //void(*S_Startup)(void);//hooked
   void(*S_Init)(void);//hooked
   void(*S_Shutdown)(void);//hooked
   sfx_t *(*S_FindName)(char *name, int *pfInCache);//hooked
@@ -111,7 +111,8 @@ struct aud_engine_t
   void(*S_StopAllSounds)(qboolean clear);//hooked
 
   //s_mem.c
-  aud_sfxcache_t *(*S_LoadSound)(sfx_t *s, aud_channel_t *ch);//hooked
+  aud_sfxcache_t *(__fastcall *S_LoadSound)(void* pgbaudio, void* edx, sfx_t *s, aud_channel_t *ch);//hooked
+  void* g_gearBoxAudio;
 
   //s_mix.c
   void(*VOX_Shutdown)(void);
@@ -137,3 +138,10 @@ void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loade
 
 //common
 extern aud_engine_t gAudEngine;
+
+
+extern IConsoleVariable doppler;
+extern IConsoleVariable xfi_workaround;
+extern IConsoleVariable occluder;
+extern IConsoleVariable occlusion;
+extern IConsoleVariable occlusion_fade;

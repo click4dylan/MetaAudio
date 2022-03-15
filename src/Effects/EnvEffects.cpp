@@ -13,15 +13,13 @@
 #include "Workarounds/XFiWorkarounds.hpp"
 #include "SoundSources/BaseSoundSource.hpp"
 
-extern cvar_t* sxroomwater_type;
-extern cvar_t* sxroom_type;
+extern ConsoleVariable* sxroomwater_type;
+extern ConsoleVariable* sxroom_type;
+IConsoleVariable occlusion(CVAR_BOOL, "al_occlusion", "", "1", FCVAR_EXTDLL);
+IConsoleVariable occlusion_fade(CVAR_FLOAT, "al_occlusion_fade", "", "1", FCVAR_EXTDLL);
 
 namespace MetaAudio
 {
-  static cvar_t* al_occlusion = nullptr;
-  static cvar_t* al_occlusion_fade = nullptr;
-  static cvar_t* sxroom_off = nullptr;
-
   // HL1 DSPROPERTY_EAXBUFFER_REVERBMIX seems to be always set to 0.38,
   // with no adjustment of reverb intensity with distance.
   // Reverb adjustment with distance is disabled per-source.
@@ -29,6 +27,10 @@ namespace MetaAudio
 
   static constexpr float AL_UNDERWATER_LP_GAIN = 0.25f;
   static constexpr float AL_UNDERWATER_DOPPLER_FACTOR_RATIO = 343.3f / 1484.0f;
+
+  ConsoleVariable* al_occlusion = nullptr;
+  ConsoleVariable* al_occlusion_fade = nullptr;
+  ConsoleVariable* sxroom_off = nullptr;
 
   void EnvEffects::FadeToNewValue(const bool fade_enabled,
     const bool force_final,
@@ -54,7 +56,7 @@ namespace MetaAudio
   void EnvEffects::InterplEffect(int roomtype)
   {
     EFXEAXREVERBPROPERTIES desired = presets_room[0];
-    if (roomtype > 0 && roomtype < CSXROOM && sxroom_off && !sxroom_off->value)
+    if (roomtype > 0 && roomtype < CSXROOM && sxroom_off && !sxroom_off->getValueBool())
     {
       desired = presets_room[roomtype];
     }
@@ -109,12 +111,12 @@ namespace MetaAudio
   {
     alure::FilterParams params{1.0f, AL_LOWPASS_DEFAULT_GAIN, AL_HIGHPASS_DEFAULT_GAIN };
 
-    cl_entity_t* pent = gEngfuncs.GetEntityByIndex(*gAudEngine.cl_viewentity);
-    cl_entity_t* sent = gEngfuncs.GetEntityByIndex(ch->entnum);
+    cl_entity_t* pent = g_pEngfuncs->GetEntityByIndex(*gAudEngine.cl_viewentity);
+    cl_entity_t* sent = g_pEngfuncs->GetEntityByIndex(ch->entnum);
     if (ch->entnum != *gAudEngine.cl_viewentity && pent != nullptr && sent != nullptr)
     {
       // Detect collisions and reduce gain on occlusion
-      if (al_occlusion->value)
+      if (al_occlusion->getValueBool())
       {
         // Check occlusion only on those entities that can be heard.
         float distance = alure::Vector3(ch->origin[0], ch->origin[1], ch->origin[2]).getDistanceSquared(
@@ -155,9 +157,9 @@ namespace MetaAudio
         ch->HighGain.target = 1.0f;
       }
 
-      FadeToNewValue(al_occlusion_fade->value, ch->firstpass, ch->LowGain);
-      FadeToNewValue(al_occlusion_fade->value, ch->firstpass, ch->MidGain);
-      FadeToNewValue(al_occlusion_fade->value, ch->firstpass, ch->HighGain);
+      FadeToNewValue(al_occlusion_fade->getValueFloat(), ch->firstpass, ch->LowGain);
+      FadeToNewValue(al_occlusion_fade->getValueFloat(), ch->firstpass, ch->MidGain);
+      FadeToNewValue(al_occlusion_fade->getValueFloat(), ch->firstpass, ch->HighGain);
 
       params.mGain = ch->MidGain.current;
       params.mGainHF = ch->HighGain.current;
@@ -190,21 +192,21 @@ namespace MetaAudio
   {
     if (al_occlusion == nullptr)
     {
-      al_occlusion = gEngfuncs.pfnRegisterVariable("al_occlusion", "1", FCVAR_EXTDLL);
+      al_occlusion = g_pEngfuncs->CreateConsoleVariableClient(occlusion);
     }
 
     if (al_occlusion_fade == nullptr)
     {
-      al_occlusion_fade = gEngfuncs.pfnRegisterVariable("al_occlusion_fade", "1", FCVAR_EXTDLL);
+      al_occlusion_fade = g_pEngfuncs->CreateConsoleVariableClient(occlusion_fade);
     }
 
     if (sxroom_off == nullptr)
     {
-      sxroom_off = gEngfuncs.pfnGetCvarPointer("room_off");
+      sxroom_off = g_pEngfuncs->GetConsoleVariableClient("room_off");
     }
 
-    const char* _al_maxsends;
-    CommandLine()->CheckParm("-al_maxsends", &_al_maxsends);
+    char* _al_maxsends;
+    g_pEngfuncs->CheckParm("-al_maxsends", &_al_maxsends);
 
     if (_al_maxsends != nullptr)
     {
@@ -380,6 +382,7 @@ namespace MetaAudio
 
   void EnvEffects::OverrideEffects()
   {
+#if 0
     std::array<char, 256> directory;
     g_pInterface->FileSystem->GetCurrentDirectoryA(directory.data(), directory.size());
 
@@ -403,6 +406,7 @@ namespace MetaAudio
         break;
       }
     }
+#endif
   }
 
   EnvEffects::~EnvEffects()

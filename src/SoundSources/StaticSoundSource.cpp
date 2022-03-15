@@ -6,7 +6,7 @@ namespace MetaAudio
 {
   StaticSoundSource::StaticSoundSource(const alure::Buffer& buffer, alure::Source& source): m_buffer(buffer)
   {
-    al_xfi_workaround = &gEngfuncs.pfnGetCvarPointer("al_xfi_workaround")->value;
+    al_xfi_workaround = g_pEngfuncs->GetConsoleVariableClient("al_xfi_workaround");
     m_source = alure::AutoObj(source);
     m_frequency = buffer.getFrequency();
     m_length = buffer.getLength();
@@ -21,7 +21,7 @@ namespace MetaAudio
 
   bool StaticSoundSource::IsPlaying()
   {
-    if (*al_xfi_workaround == 1.0f)
+    if (al_xfi_workaround->getValueFloat() == 1.0f)
     {
       return m_source->isPlaying() && std::chrono::steady_clock::now() < m_maximum_end_time;
     }

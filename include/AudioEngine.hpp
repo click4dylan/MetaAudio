@@ -17,16 +17,19 @@ namespace MetaAudio
     std::unordered_map<alure::String, sfx_t> known_sfx;
 
     //engine cvars
-    cvar_t* nosound = nullptr;
-    cvar_t* volume = nullptr;
-    cvar_t* sxroomwater_type = nullptr;
-    cvar_t* sxroom_type = nullptr;
-    cvar_t* snd_show = nullptr;
+   ConsoleVariable* nosound = nullptr;
+   ConsoleVariable* volume = nullptr;
+   ConsoleVariable* sxroomwater_type = nullptr;
+   ConsoleVariable* sxroom_type = nullptr;
+   ConsoleVariable* snd_show = nullptr;
 
     //active control
-    cvar_t* al_doppler = nullptr;
-    cvar_t* al_xfi_workaround = nullptr;
-    cvar_t* al_occluder = nullptr;
+    ConsoleVariable* al_doppler = nullptr;
+    ConsoleVariable* al_xfi_workaround = nullptr;
+    ConsoleVariable* al_occluder = nullptr;
+    ConsoleVariable* al_occlusion = nullptr;
+    ConsoleVariable* al_occlusion_fade = nullptr;
+    ConsoleVariable* sxroom_off = nullptr;
     bool openal_started = false;
     bool openal_mute = false;
 

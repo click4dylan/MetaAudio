@@ -40,14 +40,14 @@ namespace MetaAudio
         }
         catch (const std::runtime_error& error)
         {
-          gEngfuncs.Con_DPrintf("%s: Couldn't load %s. %s.\n", m_function_name.c_str(), new_name.c_str(), error.what());
+          g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s. %s.\n", m_function_name.c_str(), new_name.c_str(), error.what());
           valid_file = false;
         }
       }
     }
     else
     {
-      gEngfuncs.Con_DPrintf("%s: Couldn't load %s. Invalid file name.\n", m_function_name.c_str(), sfx_name.c_str());
+      g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s. Invalid file name.\n", m_function_name.c_str(), sfx_name.c_str());
       return std::optional<alure::String>{};
     }
 
@@ -57,7 +57,7 @@ namespace MetaAudio
     }
     else
     {
-      gEngfuncs.Con_DPrintf("%s: Couldn't load %s.\n", m_function_name.c_str(), sfx_name.c_str());
+      g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s.\n", m_function_name.c_str(), sfx_name.c_str());
       return std::nullopt;
     }
   }
@@ -121,7 +121,7 @@ namespace MetaAudio
       }
       catch (const std::exception& error)
       {
-        gEngfuncs.Con_DPrintf("S_LoadStreamSound: %s: %s\n", file_path.value(), error.what());
+        g_pEngfuncs->Con_DPrintf("S_LoadStreamSound: %s: %s\n", file_path.value(), error.what());
         return nullptr;
       }
     }
@@ -156,7 +156,7 @@ namespace MetaAudio
         }
         catch (const std::runtime_error& error)
         {
-          gEngfuncs.Con_DPrintf("S_LoadSound: Unable to start voice playback. %s.\n", error.what());
+          g_pEngfuncs->Con_DPrintf("S_LoadSound: Unable to start voice playback. %s.\n", error.what());
           return nullptr;
         }
       }
@@ -184,7 +184,7 @@ namespace MetaAudio
       }
       catch (const std::exception& error)
       {
-        gEngfuncs.Con_DPrintf("S_LoadSound: %s: %s\n", file_path.value().c_str(), error.what());
+        g_pEngfuncs->Con_DPrintf("S_LoadSound: %s: %s\n", file_path.value().c_str(), error.what());
         sc = nullptr;
         return nullptr;
       }
@@ -220,7 +220,7 @@ namespace MetaAudio
         }
         catch (const std::exception& error)
         {
-          gEngfuncs.Con_DPrintf("Unable to set loop points for sound %s. %s. Will use manual looping.\n", s->name, error.what());
+          g_pEngfuncs->Con_DPrintf("Unable to set loop points for sound %s. %s. Will use manual looping.\n", s->name, error.what());
           sc->force_streaming = true;
         }
       }

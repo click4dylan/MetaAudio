@@ -4,6 +4,7 @@
 #include "snd_local.h"
 #include "AudioEngine.hpp"
 #include "Loaders/SoundLoader.hpp"
+#include "..\pattern_scanner.h"
 
 aud_engine_t gAudEngine;
 
@@ -15,195 +16,94 @@ aud_engine_t gAudEngine;
 #define Sig_Length(a) (sizeof(a)-1)
 #define Search_Pattern(sig) g_pMetaHookAPI->SearchPattern((void *)g_dwEngineBase, g_dwEngineSize, sig, Sig_Length(sig));
 #define Search_Pattern_From(func, sig) g_pMetaHookAPI->SearchPattern((void *)gAudEngine.func, g_dwEngineSize - (DWORD)gAudEngine.func + g_dwEngineBase, sig, Sig_Length(sig));
-#define InstallHook(func) g_pMetaHookAPI->InlineHook((void *)gAudEngine.func, func, (void *&)gAudEngine.func);
+#define InstallHook(func) HookFunctionWithMinHook((LPVOID)gAudEngine.func, func, (LPVOID *)&gAudEngine.func)
+//#define InstallHook(func) g_pMetaHookAPI->InlineHook((void *)gAudEngine.func, func, (void *&)gAudEngine.func);
 
-//Signatures for 6153
 
-#define S_INIT_SIG_NEW "\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x08\x85\xC0"
-#define S_SHUTDOWN_SIG_NEW "\xE8\x2A\x2A\x2A\x2A\xA1\x2A\x2A\x2A\x2A\x33\xC9"
-#define S_FINDNAME_SIG_NEW "\x55\x8B\xEC\x53\x56\x8B\x75\x08\x33\xDB\x85\xF6"
-#define S_PRECACHESOUND_SIG_NEW "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x56\x85\xC0\x74\x2A\xD9\x05"
-#define SND_SPATIALIZE_SIG_NEW "\x55\x8B\xEC\x83\xEC\x1C\x8B\x0D\x2A\x2A\x2A\x2A\x56"
-#define S_STARTDYNAMICSOUND_SIG_NEW "\x55\x8B\xEC\x83\xEC\x48\xA1\x2A\x2A\x2A\x2A\x53\x56\x57\x85\xC0\xC7\x45\xFC\x00\x00\x00\x00"
-#define S_STARTSTATICSOUND_SIG_NEW "\x55\x8B\xEC\x83\xEC\x44\x53\x56\x57\x8B\x7D\x10\x85\xFF\xC7\x45\xFC\x00\x00\x00\x00"
-#define S_STOPSOUND_SIG_NEW "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x57\xBF\x04\x00\x00\x00\x3B\xC7"
-#define S_STOPALLSOUNDS_SIG_NEW "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x85\xC0\x74\x4F\x56\xC7\x05"
-#define S_UPDATE_SIG_NEW "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x85\xC0\x0F\x84\x2A\x2A\x00\x00\xA1\x2A\x2A\x2A\x2A\x85\xC0\x0F\x8F\x2A\x2A\x00\x00"
-#define S_LOADSOUND_SIG_NEW "\x55\x8B\xEC\x81\xEC\x44\x05\x00\x00\x53\x56\x8B\x75\x08"
-#define S_LOADSOUND_SIG_NEWEST "\x55\x8B\xEC\x81\xEC\x28\x05\x00\x00\x53\x8B\x5D\x08\x56\x57\x8A"
-#define SEQUENCE_GETSENTENCEBYINDEX_SIG_NEW "\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x33\xC9\x85\xC0\x2A\x2A\x2A\x8B\x75\x08\x8B\x50\x04"
-#define VOICESE_IDLE_SIG_NEW "\x55\x8B\xEC\xA0\x2A\x2A\x2A\x2A\xD9\x05\x2A\x2A\x2A\x2A\x84\xC0\x74\x2A\xD8\x1D"
-#ifdef _DEBUG
-#define SYS_ERROR_SIG_NEW "\x55\x8B\xEC\x81\xEC\x00\x04\x00\x00\x8B\x4D\x08\x8D\x45\x0C\x50\x51\x8D\x95\x00\xFC\xFF\xFF"
-#endif
-
-//Signatures for 3266
-#define S_INIT_SIG "\x83\xEC\x08\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x08\x85\xC0"
-#define S_SHUTDOWN_SIG S_SHUTDOWN_SIG_NEW
-#define S_FINDNAME_SIG "\x53\x55\x8B\x6C\x24\x0C\x33\xDB\x56\x57\x85\xED"
-#define S_PRECACHESOUND_SIG "\xA1\x2A\x2A\x2A\x2A\x56\x85\xC0\x74\x2A\xD9\x05"
-#define SND_SPATIALIZE_SIG "\x83\xEC\x34\x8B\x0D\x2A\x2A\x2A\x2A\x53\x56"
-#define S_STARTDYNAMICSOUND_SIG "\x83\xEC\x48\xA1\x2A\x2A\x2A\x2A\x53\x55\x56\x85\xC0\x57\xC7\x44\x24\x10\x00\x00\x00\x00"
-#define S_STARTSTATICSOUND_SIG "\x83\xEC\x44\x53\x55\x8B\x6C\x24\x58\x56\x85\xED\x57"
-#define S_STOPSOUND_SIG "\xA1\x2A\x2A\x2A\x2A\x57\xBF\x04\x00\x00\x00\x3B\xC7"
-#define S_STOPALLSOUNDS_SIG "\xA1\x2A\x2A\x2A\x2A\x85\xC0\x74\x2A\x56\xC7\x05"
-#define S_UPDATE_SIG "\xA1\x2A\x2A\x2A\x2A\x85\xC0\x0F\x84\x2A\x2A\x00\x00\xA1\x2A\x2A\x2A\x2A\x85\xC0\x0F\x8F\x2A\x2A\x00\x00"
-#define S_LOADSOUND_SIG "\x81\xEC\x2A\x2A\x00\x00\x53\x8B\x9C\x24\x2A\x2A\x00\x00\x55\x56\x8A\x03\x57"
-#define SEQUENCE_GETSENTENCEBYINDEX_SIG "\xA1\x2A\x2A\x2A\x2A\x33\xC9\x85\xC0\x2A\x2A\x2A\x2A\x2A\x24\x08\x8B\x50\x04"
-#define VOICESE_IDLE_SIG "\xA0\x2A\x2A\x2A\x2A\xD9\x05\x2A\x2A\x2A\x2A\x84\xC0\x74\x2A\xD8\x1D"
-#ifdef _DEBUG
-#define SYS_ERROR_SIG "\x8B\x4C\x24\x04\x81\xEC\x00\x04\x00\x00\x8D\x84\x24\x08\x04\x00\x00\x8D\x54\x24\x00\x50\x51\x68\x00\x04\x00\x00\x52\xE8\x2A\x2A\x2A\x2A\xA1\x2A\x2A\x2A\x2A\x83\xC4\x10\x85\xC0"
-#endif
 
 void S_FillAddress()
 {
-  memset(&gAudEngine, 0, sizeof(gAudEngine));
+    memset(&gAudEngine, 0, sizeof(gAudEngine));
 
-  if (g_dwEngineBuildnum >= 5953)
-  {
-    gAudEngine.S_Init = (void(*)(void))Search_Pattern(S_INIT_SIG_NEW);
+    //S_EndPrecaching: 8B 0D ?? ?? ?? ?? 85 C9 74 05 E9 ?? ?? ?? ?? C3
+
+    gAudEngine.S_Init = (void(*)(void))FindMemoryPattern(g_dwEngineBase, "6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 64 89 25 ? ? ? ? 51 A0", false);
     Sig_FuncNotFound(S_Init);
 
-    gAudEngine.S_Shutdown = (void(*)(void))Search_Pattern_From(S_Init, S_SHUTDOWN_SIG_NEW);
+    gAudEngine.S_Shutdown = (void(*)(void))FindMemoryPattern(g_dwEngineBase, "A0 ? ? ? ? 84 C0 74 26 E8 ? ? ? ? 8B 0D ? ? ? ? 85 C9", false);
     Sig_FuncNotFound(S_Shutdown);
 
-    gAudEngine.S_FindName = (sfx_t *(*)(char *, int *))Search_Pattern_From(S_Shutdown, S_FINDNAME_SIG_NEW);
+    gAudEngine.S_FindName = (sfx_t * (*)(char*, int*))FindMemoryPattern(g_dwEngineBase, "53 55 56 8B 74 24 10 33 DB 85 F6 57", false);
     Sig_FuncNotFound(S_FindName);
 
-    gAudEngine.S_PrecacheSound = (sfx_t *(*)(char *))Search_Pattern_From(S_FindName, S_PRECACHESOUND_SIG_NEW);
+    gAudEngine.S_PrecacheSound = (sfx_t * (*)(char*))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 0B 8B 44 24 04 50", false);
     Sig_FuncNotFound(S_PrecacheSound);
+    gAudEngine.g_gearBoxAudio = (void*)*(DWORD*)((DWORD)gAudEngine.S_PrecacheSound + 2);
 
-    gAudEngine.SND_Spatialize = (void(*)(aud_channel_t *))Search_Pattern_From(S_PrecacheSound, SND_SPATIALIZE_SIG_NEW);
+    gAudEngine.SND_Spatialize = (void(*)(aud_channel_t*))FindMemoryPattern(g_dwEngineBase, "83 EC 18 56 8B 74 24 20 8B 46 18 57 8B F9 3B 05", false);
     Sig_FuncNotFound(SND_Spatialize);
 
-    gAudEngine.S_StartDynamicSound = (void(*)(int, int, sfx_t *, float *, float, float, int, int))Search_Pattern_From(SND_Spatialize, S_STARTDYNAMICSOUND_SIG_NEW);
+    gAudEngine.S_StartDynamicSound = (void(*)(int, int, sfx_t*, float*, float, float, int, int))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 2D 8B 54 24 20 52 8B 54 24 20 8B 01 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 FF 50 0C C3", false);//"83 EC 48 57 8B F9 8A 47 04 84 C0 0F 84 ? ? ? ? 53 55 56 8B 74 24 64 85 F6 0F 84", false);
     Sig_FuncNotFound(S_StartDynamicSound);
 
-    gAudEngine.S_StartStaticSound = (void(*)(int, int, sfx_t *, float *, float, float, int, int))Search_Pattern_From(S_StartDynamicSound, S_STARTSTATICSOUND_SIG_NEW);
+    gAudEngine.S_StartStaticSound = (void(*)(int, int, sfx_t*, float*, float, float, int, int))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 2D 8B 54 24 20 52 8B 54 24 20 8B 01 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 8B 54 24 20 52 FF 50 08 C3", false);//"83 EC 48 57 8B F9 8A 47 04 84 C0 0F 84 ? ? ? ? 53 8B 5C 24 5C", false);
     Sig_FuncNotFound(S_StartStaticSound);
 
-    gAudEngine.S_StopSound = (void(*)(int, int))Search_Pattern_From(S_StartStaticSound, S_STOPSOUND_SIG_NEW);
+    gAudEngine.S_StopSound = (void(*)(int, int))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 0F 8B 54 24 08 8B 01 52 8B 54 24 08 52 FF 50 1C C3", false);
     Sig_FuncNotFound(S_StopSound);
 
-    gAudEngine.S_StopAllSounds = (void(*)(qboolean))Search_Pattern_From(S_StopSound, S_STOPALLSOUNDS_SIG_NEW);
+    gAudEngine.S_StopAllSounds = (void(*)(qboolean))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 0B 0F B6 54 24 04 8B 01 52 FF 50 20 C3", false);
     Sig_FuncNotFound(S_StopAllSounds);
 
-    gAudEngine.S_Update = (void(*)(float *, float *, float *, float *))Search_Pattern_From(S_StopAllSounds, S_UPDATE_SIG_NEW);
+    gAudEngine.S_Update = (void(*)(float*, float*, float*, float*))FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 85 C9 74 19 8B 54 24 10 8B 01 52 8B 54 24 10 52 8B 54 24 10 52 8B 54 24 10 52 FF 50 18 C3", false);
     Sig_FuncNotFound(S_Update);
 
-    if (g_dwEngineBuildnum >= 8279)
-    {
-      gAudEngine.S_LoadSound = (aud_sfxcache_t *(*)(sfx_t *, aud_channel_t *))Search_Pattern_From(S_Update, S_LOADSOUND_SIG_NEWEST);
-    }
-    else
-    {
-      gAudEngine.S_LoadSound = (aud_sfxcache_t *(*)(sfx_t *, aud_channel_t *))Search_Pattern_From(S_Update, S_LOADSOUND_SIG_NEW);
-    }
+    gAudEngine.S_LoadSound = (aud_sfxcache_t * (__fastcall *)(void* pgbaudio, void* edx, sfx_t*, aud_channel_t*))FindMemoryPattern(g_dwEngineBase, "81 EC 54 03 00 00 53 8B D9 8B 8C 24 5C 03 00 00 33 C0 55 8D 69 01 89 44 24 1C 89 44 24 18", false);
     Sig_FuncNotFound(S_LoadSound);
 
-    gAudEngine.SequenceGetSentenceByIndex = (sentenceEntry_s*(*)(unsigned int))Search_Pattern(SEQUENCE_GETSENTENCEBYINDEX_SIG_NEW);
-    Sig_FuncNotFound(SequenceGetSentenceByIndex);
+    //gAudEngine.SequenceGetSentenceByIndex = (sentenceEntry_s * (*)(unsigned int))Search_Pattern(SEQUENCE_GETSENTENCEBYINDEX_SIG);
+    //Sig_FuncNotFound(SequenceGetSentenceByIndex);
 
-    gAudEngine.VoiceSE_Idle = (void(*)(float))Search_Pattern(VOICESE_IDLE_SIG_NEW);
-    Sig_FuncNotFound(VoiceSE_Idle);
+    //gAudEngine.VoiceSE_Idle = (void(*)(float))Search_Pattern(VOICESE_IDLE_SIG);
+    //Sig_FuncNotFound(VoiceSE_Idle);
 
-#ifdef _DEBUG
-    gAudEngine.Sys_Error = (void(*)(char *, ...))Search_Pattern(SYS_ERROR_SIG_NEW);
-    Sig_FuncNotFound(Sys_Error);
-#endif
-  }
-  else
-  {
-    gAudEngine.S_Init = (void(*)(void))Search_Pattern(S_INIT_SIG);;
-    Sig_FuncNotFound(S_Init);
+    DWORD addr;
 
-    gAudEngine.S_Shutdown = (void(*)(void))Search_Pattern_From(S_Init, S_SHUTDOWN_SIG);
-    Sig_FuncNotFound(S_Shutdown);
+    //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.SND_Spatialize, 0x10, "\x8B\x0D", Sig_Length("\x8B\x0D"));
+    //Sig_AddrNotFound(cl_viewentity);
+    addr = FindMemoryPattern(g_dwEngineBase, "8B 0D ? ? ? ? 3B 0D ? ? ? ? 0F 8F ? ? ? ? 83 78 4C 03", false);
+    Sig_AddrNotFound(cl_viewentity);
+    gAudEngine.cl_viewentity = *(int**)((DWORD)addr + 2);
+    gAudEngine.cl_num_entities = gAudEngine.cl_viewentity + 3;
+    
+    addr = FindMemoryPattern(g_dwEngineBase, "89 35 ? ? ? ? 23 F2 89 35", false);
+    Sig_AddrNotFound(cl_parsecount);
+    gAudEngine.cl_parsecount = *(int**)(addr + 2);
+    gAudEngine.cl_servercount = gAudEngine.cl_parsecount - 2;
 
-    gAudEngine.S_FindName = (sfx_t *(*)(char *, int *))Search_Pattern_From(S_Shutdown, S_FINDNAME_SIG);
-    Sig_FuncNotFound(S_FindName);
+    addr = FindMemoryPattern(g_dwEngineBase, "89 0D ? ? ? ? 8B 93 ? 00 00 00 33 F6 3B C6", false);
+    Sig_AddrNotFound(cl_waterlevel);
+    gAudEngine.cl_waterlevel = *(int**)(addr + 2);
 
-    gAudEngine.S_PrecacheSound = (sfx_t *(*)(char *))Search_Pattern_From(S_FindName, S_PRECACHESOUND_SIG);
-    Sig_FuncNotFound(S_PrecacheSound);
+    gAudEngine.cl_time = (double*)(gAudEngine.cl_waterlevel + 10);
+    gAudEngine.cl_oldtime = gAudEngine.cl_time + 1;
+    gAudEngine.VOX_Shutdown = (void(*)(void))FindMemoryPattern(g_dwEngineBase, "A1 ? ? ? ? 56 57 33 FF 33 F6 3B C7 7E 26 90", false);
+    gAudEngine.cszrawsentences = *(int**)((DWORD)gAudEngine.VOX_Shutdown + 1);
+    gAudEngine.rgpszrawsentence = *(char* (**)[CVOXFILESENTENCEMAX])((DWORD)gAudEngine.VOX_Shutdown + 0x13);
+    gAudEngine.S_FreeChannel = (void(*)(channel_t*))FindMemoryPattern(g_dwEngineBase, "56 57 8B 7C 24 0C 83 7F 1C 05 75 2B");
 
-    gAudEngine.SND_Spatialize = (void(*)(aud_channel_t *))Search_Pattern_From(S_PrecacheSound, SND_SPATIALIZE_SIG);
-    Sig_FuncNotFound(SND_Spatialize);
+    //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.S_FreeChannel, 0x50, "\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04", Sig_Length("\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04"));
+    //Sig_AddrNotFound(VoiceSE_NotifyFreeChannel);
+    //gAudEngine.VoiceSE_NotifyFreeChannel = (void(*)(int))GetCallAddress(addr + 1);
 
-    gAudEngine.S_StartDynamicSound = (void(*)(int, int, sfx_t *, float *, float, float, int, int))Search_Pattern_From(SND_Spatialize, S_STARTDYNAMICSOUND_SIG);
-    Sig_FuncNotFound(S_StartDynamicSound);
+    //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.VoiceSE_Idle, 0x100, "\xD8\x05\x2A\x2A\x2A\x2A\xD9\x1D", Sig_Length("\xD8\x05\x2A\x2A\x2A\x2A\xD9\x1D"));
+    //Sig_AddrNotFound(g_SND_VoiceOverdrive);
+    //gAudEngine.g_SND_VoiceOverdrive = *(float**)(addr + 8);
 
-    gAudEngine.S_StartStaticSound = (void(*)(int, int, sfx_t *, float *, float, float, int, int))Search_Pattern_From(S_StartDynamicSound, S_STARTSTATICSOUND_SIG);
-    Sig_FuncNotFound(S_StartStaticSound);
-
-    gAudEngine.S_StopSound = (void(*)(int, int))Search_Pattern_From(S_StartStaticSound, S_STOPSOUND_SIG);
-    Sig_FuncNotFound(S_StopSound);
-
-    gAudEngine.S_StopAllSounds = (void(*)(qboolean))Search_Pattern_From(S_StopSound, S_STOPALLSOUNDS_SIG);
-    Sig_FuncNotFound(S_StopAllSounds);
-
-    gAudEngine.S_Update = (void(*)(float *, float *, float *, float *))Search_Pattern_From(S_StopAllSounds, S_UPDATE_SIG);
-    Sig_FuncNotFound(S_Update);
-
-    gAudEngine.S_LoadSound = (aud_sfxcache_t *(*)(sfx_t *, aud_channel_t *))Search_Pattern_From(S_Update, S_LOADSOUND_SIG);
-    Sig_FuncNotFound(S_LoadSound);
-
-    gAudEngine.SequenceGetSentenceByIndex = (sentenceEntry_s*(*)(unsigned int))Search_Pattern(SEQUENCE_GETSENTENCEBYINDEX_SIG);
-    Sig_FuncNotFound(SequenceGetSentenceByIndex);
-
-    gAudEngine.VoiceSE_Idle = (void(*)(float))Search_Pattern(VOICESE_IDLE_SIG);
-    Sig_FuncNotFound(VoiceSE_Idle);
-
-#ifdef _DEBUG
-    gAudEngine.Sys_Error = (void(*)(char *, ...))Search_Pattern(SYS_ERROR_SIG);
-    Sig_FuncNotFound(Sys_Error);
-#endif
-  }
-  DWORD addr;
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.SND_Spatialize, 0x10, "\x8B\x0D", Sig_Length("\x8B\x0D"));
-  Sig_AddrNotFound(cl_viewentity);
-  gAudEngine.cl_viewentity = *(int **)((DWORD)addr + 2);
-  gAudEngine.cl_num_entities = gAudEngine.cl_viewentity + 3;
-  gAudEngine.cl_parsecount = gAudEngine.cl_viewentity - (0x1789C8 / 4);
-  gAudEngine.cl_servercount = gAudEngine.cl_parsecount - 2;
-  gAudEngine.cl_waterlevel = gAudEngine.cl_servercount + 0x450 / 4;
-
-  gAudEngine.cl_time = (double *)(gAudEngine.cl_waterlevel + 11);
-  gAudEngine.cl_oldtime = gAudEngine.cl_time + 1;
-
-  if (*(byte *)gAudEngine.S_Shutdown != (byte)'\xE8')
-    Sig_NotFound(VOX_Shutdown);
-  gAudEngine.VOX_Shutdown = (void(*)(void))GetCallAddress((DWORD)gAudEngine.S_Shutdown);
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.VOX_Shutdown, 0x10, "\xA1", Sig_Length("\xA1"));
-  Sig_AddrNotFound(cszrawsentences);
-  gAudEngine.cszrawsentences = *(int **)((DWORD)addr + 1);
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.VOX_Shutdown, 0x20, "\x8B\x04\xB5", Sig_Length("\x8B\x04\xB5"));
-  if (!addr)
-    addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.VOX_Shutdown, 0x30, "\xBF\x2A\x2A\x2A\x2A\x8B\x07", Sig_Length("\xBF\x2A\x2A\x2A\x2A\x8B\x07"));
-  Sig_AddrNotFound(rgpszrawsentence);
-  if (*(byte *)addr == (byte)0x8B)
-    gAudEngine.rgpszrawsentence = *(char *(**)[CVOXFILESENTENCEMAX])((DWORD)addr + 3);
-  else if (*(byte *)addr == (byte)0xBF)
-    gAudEngine.rgpszrawsentence = *(char *(**)[CVOXFILESENTENCEMAX])((DWORD)addr + 1);
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.S_StopSound, 0x50, "\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04", Sig_Length("\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04"));
-  Sig_AddrNotFound(S_FreeChannel);
-  gAudEngine.S_FreeChannel = (void(*)(channel_t *))GetCallAddress(addr);
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.S_FreeChannel, 0x50, "\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04", Sig_Length("\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04"));
-  Sig_AddrNotFound(VoiceSE_NotifyFreeChannel);
-  gAudEngine.VoiceSE_NotifyFreeChannel = (void(*)(int))GetCallAddress(addr + 1);
-
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.VoiceSE_Idle, 0x100, "\xD8\x05\x2A\x2A\x2A\x2A\xD9\x1D", Sig_Length("\xD8\x05\x2A\x2A\x2A\x2A\xD9\x1D"));
-  Sig_AddrNotFound(g_SND_VoiceOverdrive);
-  gAudEngine.g_SND_VoiceOverdrive = *(float **)(addr + 8);
-
-#define S_STARTUP_SIG "\xE8\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\x68\x00\x20\x01\x00\xE8"
-  addr = (DWORD)g_pMetaHookAPI->SearchPattern((void *)gAudEngine.S_Init, 0x500, S_STARTUP_SIG, Sig_Length(S_STARTUP_SIG));
-  Sig_AddrNotFound(S_Startup);
-  gAudEngine.S_Startup = (void(*)(void))GetCallAddress(addr);
+//#define S_STARTUP_SIG "\xE8\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\x68\x00\x20\x01\x00\xE8"
+    //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.S_Init, 0x500, S_STARTUP_SIG, Sig_Length(S_STARTUP_SIG));
+    //Sig_AddrNotFound(S_Startup);
+    //gAudEngine.S_Startup = (void(*)(void))GetCallAddress(addr);
 }
 
 #ifdef _DEBUG
@@ -216,7 +116,7 @@ void Sys_Error(char *fmt, ...)
 static MetaAudio::AudioEngine* p_engine;
 static MetaAudio::SoundLoader* p_loader;
 
-static void S_Startup() { p_engine->S_Startup(); }
+//static void S_Startup() { p_engine->S_Startup(); }
 static void S_Init() { p_engine->S_Init(); }
 static void S_Shutdown() { p_engine->S_Shutdown(); }
 static sfx_t* S_FindName(char* name, int* pfInCache) { return p_engine->S_FindName(name, pfInCache); }
@@ -225,13 +125,13 @@ static void S_StartStaticSound(int entnum, int entchannel, sfx_t* sfx, float* or
 static void S_StopSound(int entnum, int entchannel) { p_engine->S_StopSound(entnum, entchannel); };
 static void S_StopAllSounds(qboolean clear) { p_engine->S_StopAllSounds(clear); }
 static void S_Update(float* origin, float* forward, float* right, float* up) { p_engine->S_Update(origin, forward, right, up); }
-static aud_sfxcache_t* S_LoadSound(sfx_t* s, aud_channel_t* ch) { return p_loader->S_LoadSound(s, ch); }
+static aud_sfxcache_t* __fastcall S_LoadSound(void* pgbaudio, void* edx, sfx_t* s, aud_channel_t* ch) { return p_loader->S_LoadSound(s, ch); }
 
 void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loader)
 {
   p_engine = engine;
   p_loader = loader;
-  InstallHook(S_Startup);
+  //InstallHook(S_Startup);
   InstallHook(S_Init);
   InstallHook(S_Shutdown);
   InstallHook(S_FindName);

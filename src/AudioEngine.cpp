@@ -9,6 +9,10 @@
 
 #include "SoundSources/SoundSourceFactory.hpp"
 
+IConsoleVariable doppler(CVAR_FLOAT, "al_doppler", "", "1.0", FCVAR_EXTDLL);
+IConsoleVariable xfi_workaround(CVAR_FLOAT, "al_xfi_workaround", "", "0.0", FCVAR_EXTDLL);
+IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "0", FCVAR_EXTDLL);
+
 namespace MetaAudio
 {
   AudioEngine::AudioEngine(std::shared_ptr<AudioCache> cache, std::shared_ptr<SoundLoader> loader) : m_cache(cache), m_loader(loader)
@@ -217,7 +221,7 @@ namespace MetaAudio
       ch->sound_source->SetRelative(false);
       if (ch->entnum > 0 && ch->entnum < *gAudEngine.cl_num_entities)
       {
-        auto sent = gEngfuncs.GetEntityByIndex(ch->entnum);
+        auto sent = g_pEngfuncs->GetEntityByIndex(ch->entnum);
 
         if (sent && sent->model && sent->curstate.messagenum == *gAudEngine.cl_parsecount)
         {
@@ -302,7 +306,7 @@ namespace MetaAudio
       // Print buffer and clear it.
       if (dprint_buffer.length())
       {
-        gEngfuncs.Con_DPrintf(const_cast<char*>((dprint_buffer.c_str())));
+        g_pEngfuncs->Con_DPrintf(const_cast<char*>((dprint_buffer.c_str())));
         dprint_buffer.clear();
       }
 
@@ -317,12 +321,12 @@ namespace MetaAudio
       else
       {
         if (volume)
-          al_listener.setGain(std::clamp(volume->value, 0.0f, 1.0f));
+          al_listener.setGain(std::clamp(volume->getValueFloat(), 0.0f, 1.0f));
         else
           al_listener.setGain(1.0f);
       }
 
-      al_context->setDopplerFactor(std::clamp(al_doppler->value, 0.0f, 10.0f));
+      al_context->setDopplerFactor(std::clamp(al_doppler->getValueFloat(), 0.0f, 10.0f));
 
       std::pair<alure::Vector3, alure::Vector3> alure_orientation(
         alure::Vector3(orientation[0], orientation[1], orientation[2]),
@@ -341,7 +345,7 @@ namespace MetaAudio
 
       al_efx->SetListenerOrientation(alure_orientation);
 
-      cl_entity_t* pent = gEngfuncs.GetEntityByIndex(*gAudEngine.cl_viewentity);
+      cl_entity_t* pent = g_pEngfuncs->GetEntityByIndex(*gAudEngine.cl_viewentity);
       if (pent != nullptr)
       {
         float ratio = 0;
@@ -363,13 +367,13 @@ namespace MetaAudio
       bool underwater = (*gAudEngine.cl_waterlevel > 2) ? true : false;
       if (sxroomwater_type && sxroom_type)
       {
-        roomtype = underwater ? (int)sxroomwater_type->value : (int)sxroom_type->value;
+        roomtype = underwater ? (int)sxroomwater_type->getValue() : (int)sxroom_type->getValue();
       }
       al_efx->InterplEffect(roomtype);
 
       channel_manager->ForEachChannel([&](aud_channel_t& channel) { SND_Spatialize(&channel, false); });
 
-      if (snd_show && snd_show->value)
+      if (snd_show && snd_show->getValue())
       {
         std::string output;
         size_t total = 0;
@@ -385,7 +389,7 @@ namespace MetaAudio
         if (!output.empty())
         {
           output.append("----(" + std::to_string(total) + ")----\n");
-          gEngfuncs.Con_Printf(const_cast<char*>(output.c_str()));
+          g_pEngfuncs->Con_Printf(const_cast<char*>(output.c_str()));
         }
       }
     }
@@ -434,7 +438,7 @@ namespace MetaAudio
       return;
     }
 
-    if (nosound && nosound->value)
+    if (nosound && nosound->getValue())
     {
       return;
     }
@@ -444,13 +448,13 @@ namespace MetaAudio
 
     if (entchannel == CHAN_STREAM && pitch != 100)
     {
-      gEngfuncs.Con_DPrintf("Warning: pitch shift ignored on stream sound %s\n", sfx->name);
+      g_pEngfuncs->Con_DPrintf("Warning: pitch shift ignored on stream sound %s\n", sfx->name);
       pitch = 100;
     }
 
     if (fvol > 1.0f)
     {
-      gEngfuncs.Con_DPrintf("%s: %s fvolume > 1.0", _function_name, sfx->name);
+      g_pEngfuncs->Con_DPrintf("%s: %s fvolume > 1.0", _function_name, sfx->name);
     }
 
     fpitch = pitch / 100.0f;
@@ -466,7 +470,7 @@ namespace MetaAudio
 
     if (pitch == 0)
     {
-      gEngfuncs.Con_DPrintf("Warning: %s Ignored, called with pitch 0", _function_name);
+      g_pEngfuncs->Con_DPrintf("Warning: %s Ignored, called with pitch 0", _function_name);
       return;
     }
 
@@ -532,7 +536,7 @@ namespace MetaAudio
     }
     else
     {
-      if (al_xfi_workaround->value == 2.0f || sc->force_streaming)
+      if (al_xfi_workaround->getValueFloat() == 2.0f || sc->force_streaming)
       {
         ch->sound_source = SoundSourceFactory::GetStreamingSource(al_context->createDecoder(sc->buffer.getName()), al_context->createSource(), 16384, 4);
       }
@@ -617,8 +621,8 @@ namespace MetaAudio
 
       al_dev_manager = alure::DeviceManager::getInstance();
 
-      const char* _al_set_device;
-      const char* device_set = CommandLine()->CheckParm("-al_device", &_al_set_device);
+      char* _al_set_device;
+      int device_set = g_pEngfuncs->CheckParm("-al_device", &_al_set_device);
 
       if (_al_set_device != nullptr)
         al_device = alure::MakeAuto(al_dev_manager.openPlayback(_al_set_device, std::nothrow));
@@ -672,7 +676,7 @@ namespace MetaAudio
 
   void AudioEngine::S_Startup()
   {
-    gAudEngine.S_Startup();
+    //gAudEngine.S_Startup();
 
     //stop mute me first
     openal_mute = false;
@@ -689,9 +693,9 @@ namespace MetaAudio
   void AudioEngine::AL_Version()
   {
     if (openal_started)
-      gEngfuncs.Con_Printf("%s\n OpenAL Device: %s\n OpenAL Version: %d.%d\n", META_AUDIO_VERSION, al_device_name, al_device_majorversion, al_device_minorversion);
+      g_pEngfuncs->Con_Printf("%s\n OpenAL Device: %s\n OpenAL Version: %d.%d\n", META_AUDIO_VERSION, al_device_name, al_device_majorversion, al_device_minorversion);
     else
-      gEngfuncs.Con_Printf("%s\n Failed to initalize OpenAL device.\n", META_AUDIO_VERSION, al_device_name, al_device_majorversion, al_device_minorversion);
+      g_pEngfuncs->Con_Printf("%s\n Failed to initalize OpenAL device.\n", META_AUDIO_VERSION, al_device_name, al_device_majorversion, al_device_minorversion);
   }
 
   void AudioEngine::AL_ResetEFX()
@@ -711,16 +715,16 @@ namespace MetaAudio
     {
       devices = al_dev_manager.enumerate(alure::DeviceEnumeration::Full);
     }
-    gEngfuncs.Con_Printf("Available OpenAL devices:\n");
+    g_pEngfuncs->Con_Printf("Available OpenAL devices:\n");
     for (const alure::String& device : devices)
     {
-      gEngfuncs.Con_Printf("  %s\n", device.c_str());
+      g_pEngfuncs->Con_Printf("  %s\n", device.c_str());
     }
   }
 
   static IPLvoid SteamAudioLog(char* message)
   {
-    gEngfuncs.Con_Printf(const_cast<char *>(("SteamAudio: " + std::string(message)).c_str()));
+    g_pEngfuncs->Con_Printf(const_cast<char *>(("SteamAudio: " + std::string(message)).c_str()));
   }
 
   void AudioEngine::SteamAudio_Init()
@@ -767,22 +771,24 @@ namespace MetaAudio
 
   void AudioEngine::S_Init()
   {
-    al_doppler = gEngfuncs.pfnRegisterVariable("al_doppler", "1", FCVAR_EXTDLL);
-    al_xfi_workaround = gEngfuncs.pfnRegisterVariable("al_xfi_workaround", "0", FCVAR_EXTDLL);
+    S_Startup();
+
+    al_doppler = g_pEngfuncs->CreateConsoleVariableClient(doppler);
+    al_xfi_workaround = g_pEngfuncs->CreateConsoleVariableClient(xfi_workaround);
     if (gSteamAudio.iplCleanup != nullptr)
     {
-      al_occluder = gEngfuncs.pfnRegisterVariable("al_occluder", "0", FCVAR_EXTDLL);
+      al_occluder = g_pEngfuncs->CreateConsoleVariableClient(occluder);
     }
 
     gAudEngine.S_Init();
 
-    if (!gEngfuncs.CheckParm("-nosound", NULL))
+    if (!g_pEngfuncs->CheckParm("-nosound", NULL))
     {
-      nosound = gEngfuncs.pfnGetCvarPointer("nosound");
-      volume = gEngfuncs.pfnGetCvarPointer("volume");
-      sxroomwater_type = gEngfuncs.pfnGetCvarPointer("waterroom_type");
-      sxroom_type = gEngfuncs.pfnGetCvarPointer("room_type");
-      snd_show = gEngfuncs.pfnGetCvarPointer("snd_show");
+      nosound = g_pEngfuncs->GetConsoleVariableClient("nosound");
+      volume = g_pEngfuncs->GetConsoleVariableClient("snd_mastervolume");
+      sxroomwater_type = g_pEngfuncs->GetConsoleVariableClient("waterroom_type");
+      sxroom_type = g_pEngfuncs->GetConsoleVariableClient("room_type");
+      snd_show = g_pEngfuncs->GetConsoleVariableClient("snd_show");
 
       S_StopAllSounds(true);
     }
@@ -796,13 +802,13 @@ namespace MetaAudio
 
   std::shared_ptr<IOcclusionCalculator> AudioEngine::GetOccluder()
   {
-    if (!al_occluder || al_occluder->value == 0.0f)
+    if (!al_occluder || al_occluder->getValueBool() == false)
     {
-      return std::make_shared<GoldSrcOcclusionCalculator>(*gEngfuncs.pEventAPI);
+      return std::make_shared<GoldSrcOcclusionCalculator>(*g_pEngfuncs->pEventAPI);
     }
     else
     {
-      return std::make_shared<SteamAudioOcclusionCalculator>(sa_meshloader, *gEngfuncs.pEventAPI);
+      return std::make_shared<SteamAudioOcclusionCalculator>(sa_meshloader, *g_pEngfuncs->pEventAPI);
     }
   }
 
@@ -828,5 +834,16 @@ namespace MetaAudio
     openal_mute = true;
 
     gAudEngine.S_Shutdown();
+
+    if (al_doppler)
+        g_pEngfuncs->DestroyConsoleVariableClient(&doppler);
+    if (al_xfi_workaround)
+        g_pEngfuncs->DestroyConsoleVariableClient(&xfi_workaround);
+    if (al_occluder)
+        g_pEngfuncs->DestroyConsoleVariableClient(&occluder);
+    if (al_occlusion)
+        g_pEngfuncs->DestroyConsoleVariableClient(&occlusion);
+    if (al_occlusion_fade)
+        g_pEngfuncs->DestroyConsoleVariableClient(&occlusion_fade);
   }
 }

@@ -460,7 +460,7 @@ namespace MetaAudio
     }
     else
     {
-      gEngfuncs.Con_DPrintf("VOX_LoadSound: no sentence named %s\n", pszin);
+      g_pEngfuncs->Con_DPrintf("VOX_LoadSound: no sentence named %s\n", pszin);
       return nullptr;
     }
 
@@ -511,7 +511,7 @@ namespace MetaAudio
 
   void VoxManager::ForceInitMouth(int entnum)
   {
-    cl_entity_t* pEntity = gEngfuncs.GetEntityByIndex(entnum);
+    cl_entity_t* pEntity = g_pEngfuncs->GetEntityByIndex(entnum);
 
     if (pEntity)
     {
@@ -524,7 +524,7 @@ namespace MetaAudio
 
   void VoxManager::ForceCloseMouth(int entnum)
   {
-    cl_entity_t* pEntity = gEngfuncs.GetEntityByIndex(entnum);
+    cl_entity_t* pEntity = g_pEngfuncs->GetEntityByIndex(entnum);
 
     if (pEntity)
     {
@@ -552,7 +552,7 @@ namespace MetaAudio
     int scount;
     cl_entity_t* pent;
 
-    pent = gEngfuncs.GetEntityByIndex(ch->entnum);
+    pent = g_pEngfuncs->GetEntityByIndex(ch->entnum);
 
     if (!pent)
       return;

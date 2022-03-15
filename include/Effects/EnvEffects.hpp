@@ -8,6 +8,10 @@
 
 namespace MetaAudio
 {
+    extern ConsoleVariable* al_occlusion;
+    extern ConsoleVariable* al_occlusion_fade;
+    extern ConsoleVariable* sxroom_off;
+
   class EnvEffects final
   {
   private:

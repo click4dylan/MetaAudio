@@ -12,7 +12,7 @@ namespace MetaAudio
     friend AudioEngine;
 
   private:
-    cvar_t* al_xfi_workaround;
+    ConsoleVariable* al_xfi_workaround;
 
     struct
     {

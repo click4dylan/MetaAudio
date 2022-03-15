@@ -6,7 +6,7 @@ namespace MetaAudio
 {
   VoiceDecoder::VoiceDecoder(sfx_t* sound, aud_channel_t* ch)
   {
-    sfxcache_t* oldsc = (sfxcache_t*)gAudEngine.S_LoadSound(sound, nullptr);
+    sfxcache_t* oldsc = (sfxcache_t*)gAudEngine.S_LoadSound(gAudEngine.g_gearBoxAudio, 0, sound, nullptr);
 
     if (!oldsc)
     {
