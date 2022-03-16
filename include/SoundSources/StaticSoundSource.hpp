@@ -3,6 +3,8 @@
 #include "BaseSoundSource.hpp"
 
 
+class ConsoleVariable;
+
 namespace MetaAudio
 {
   class StaticSoundSource final : public BaseSoundSource

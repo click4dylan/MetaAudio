@@ -333,3 +333,5 @@ ASALocalRun/
 *.lib
 *.exp
 *.recipe
+/MetaAudio.dir/RelWithDebInfo/MetaAudio.vcxproj.FileListAbsolute.txt
+/Win32/RelWithDebInfo/ZERO_CHECK/ZERO_CHECK.vcxproj.FileListAbsolute.txt
