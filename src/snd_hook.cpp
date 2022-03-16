@@ -90,7 +90,9 @@ void S_FillAddress()
     gAudEngine.VOX_Shutdown = (void(*)(void))FindMemoryPattern(g_dwEngineBase, "A1 ? ? ? ? 56 57 33 FF 33 F6 3B C7 7E 26 90", false);
     gAudEngine.cszrawsentences = *(int**)((DWORD)gAudEngine.VOX_Shutdown + 1);
     gAudEngine.rgpszrawsentence = *(char* (**)[CVOXFILESENTENCEMAX])((DWORD)gAudEngine.VOX_Shutdown + 0x13);
-    gAudEngine.S_FreeChannel = (void(*)(channel_t*))FindMemoryPattern(g_dwEngineBase, "56 57 8B 7C 24 0C 83 7F 1C 05 75 2B");
+    gAudEngine.S_FreeChannel = (void(*)(channel_t*))FindMemoryPattern(g_dwEngineBase, "56 57 8b ? ? ? 83 ? ? ? 75 ? 8b ? 2b ? 83", false);
+
+    gAudEngine.Sys_Error = (void(*)(char*, ...))FindMemoryPattern(g_dwEngineBase, "8B 4C 24 04 81 EC 00 04 00 00 8D 84 24 08 04 00 00 50 51 68 00 04 00 00 8D 54 24 0C 52 FF 15 ? ? ? ? A0 ? ? ? ? 84 C0", false);
 
     //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.S_FreeChannel, 0x50, "\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04", Sig_Length("\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04"));
     //Sig_AddrNotFound(VoiceSE_NotifyFreeChannel);
@@ -117,15 +119,42 @@ static MetaAudio::AudioEngine* p_engine;
 static MetaAudio::SoundLoader* p_loader;
 
 //static void S_Startup() { p_engine->S_Startup(); }
-static void S_Init() { p_engine->S_Init(); }
-static void S_Shutdown() { p_engine->S_Shutdown(); }
-static sfx_t* S_FindName(char* name, int* pfInCache) { return p_engine->S_FindName(name, pfInCache); }
-static void S_StartDynamicSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) { p_engine->S_StartDynamicSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); };
-static void S_StartStaticSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) { p_engine->S_StartStaticSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); };
-static void S_StopSound(int entnum, int entchannel) { p_engine->S_StopSound(entnum, entchannel); };
-static void S_StopAllSounds(qboolean clear) { p_engine->S_StopAllSounds(clear); }
-static void S_Update(float* origin, float* forward, float* right, float* up) { p_engine->S_Update(origin, forward, right, up); }
-static aud_sfxcache_t* __fastcall S_LoadSound(void* pgbaudio, void* edx, sfx_t* s, aud_channel_t* ch) { return p_loader->S_LoadSound(s, ch); }
+void S_Init() 
+{ 
+    p_engine->S_Init(); 
+}
+void S_Shutdown() 
+{ 
+    p_engine->S_Shutdown(); 
+}
+sfx_t* S_FindName(char* name, int* pfInCache) 
+{ 
+    return p_engine->S_FindName(name, pfInCache); 
+}
+void S_StartDynamicSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) 
+{ 
+    p_engine->S_StartDynamicSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); 
+};
+void S_StartStaticSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) 
+{ 
+    p_engine->S_StartStaticSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); 
+};
+void S_StopSound(int entnum, int entchannel) 
+{ 
+    p_engine->S_StopSound(entnum, entchannel); 
+};
+void S_StopAllSounds(qboolean clear) 
+{ 
+    p_engine->S_StopAllSounds(clear); 
+}
+void S_Update(float* origin, float* forward, float* right, float* up) 
+{ 
+    p_engine->S_Update(origin, forward, right, up); 
+}
+aud_sfxcache_t* __fastcall S_LoadSound(void* pgbaudio, void* edx, sfx_t* s, aud_channel_t* ch) 
+{ 
+    return p_loader->S_LoadSound(s, ch); 
+}
 
 void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loader)
 {

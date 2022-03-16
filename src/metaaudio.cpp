@@ -8,6 +8,7 @@
 #include "Loaders/SoundLoader.hpp"
 #include "Vox/VoxManager.hpp"
 #include "AudioEngine.hpp"
+#include "..\pattern_scanner.h"
 
 MetaAudio::SteamAudio gSteamAudio;
 static std::shared_ptr<MetaAudio::SoundLoader> sound_loader;
@@ -96,12 +97,14 @@ extern "C" __declspec(dllexport) void __cdecl StartMetaAudio(unsigned long hEngi
     }
 
     g_pNightfireFileSystem = filesystem;
+    g_pEngfuncs = pEngineFuncs;
     g_dwEngineBase = hEngineDLL;
-
+    
     auto audio_cache = std::make_shared<MetaAudio::AudioCache>();
     sound_loader = std::make_shared<MetaAudio::SoundLoader>(audio_cache);
     audio_engine = std::make_unique<MetaAudio::AudioEngine>(audio_cache, sound_loader);
 
+    MH_Initialize();
     S_FillAddress();
     S_InstallHook(audio_engine.get(), sound_loader.get());
 
@@ -119,4 +122,6 @@ extern "C" __declspec(dllexport) void __cdecl ShutdownMetaAudio()
         FreeLibrary(g_hSteamAudioInstance);
         g_hSteamAudioInstance = nullptr;
     }
+    MH_DisableHook(0);
+    MH_Uninitialize();
 }

@@ -35,20 +35,23 @@ namespace MetaAudio
     if (fileExists)
     {
       char final_file_path[260]; // MAX_PATH
-      g_pNightfireFileSystem->COM_ExpandFilename(final_file_path, sizeof(final_file_path));
-      file = alure::MakeUnique<std::ifstream>(final_file_path, std::ios::binary);
-      if (file->fail())
-      {
-        file = alure::MakeUnique<GoldSrcFileStream>(namebuffer.c_str());
+      //DYLAN FIXME
+      if (!g_pNightfireFileSystem->COM_ExpandFilename(final_file_path, sizeof(final_file_path)))
+          memcpy(final_file_path, namebuffer.c_str(), namebuffer.length() + 1);
+
+        file = alure::MakeUnique<std::ifstream>(final_file_path, std::ios::binary);
         if (file->fail())
         {
-          file = nullptr;
+            file = alure::MakeUnique<GoldSrcFileStream>(namebuffer.c_str());
+            if (file->fail())
+            {
+                file = nullptr;
+            }
+            else
+            {
+                *file >> std::noskipws;
+            }
         }
-        else
-        {
-          *file >> std::noskipws;
-        }
-      }
     }
 
     return std::move(file);
