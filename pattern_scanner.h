@@ -50,3 +50,8 @@ inline bool HookFunctionWithMinHook(LPVOID pFunctionAddress, LPVOID pDetourAddre
 	}
 	return MH_EnableHook(pFunctionAddress) == MH_OK;
 }
+
+inline uintptr_t RelativeToAbsolute(uintptr_t address)
+{
+	return (address + 4 + *reinterpret_cast<std::int32_t*>(address));
+}

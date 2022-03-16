@@ -7,10 +7,9 @@
 
 #include "interface.h"
 #include "IFileSystem.h"
+#include <NightfireFileSystem.h>
 
 extern IFileSystem *g_pFileSystem;
 extern IFileSystem *g_pFullFileSystem;
-
-extern NightfireFileSystem g_pNightfireFileSystem;
 
 #endif

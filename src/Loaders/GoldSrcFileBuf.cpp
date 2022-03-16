@@ -5,9 +5,9 @@ namespace MetaAudio
 {
   GoldSrcFileBuf::int_type GoldSrcFileBuf::underflow()
   {
-    if (mFile && gptr() == egptr())
+    if (mFile.handle_index != -1 && gptr() == egptr())
     {
-      auto got = g_pFileSystem->Read(mBuffer.data(), mBuffer.size(), mFile);
+      auto got = g_pNightfireFileSystem->COM_ReadFile(mFile, mBuffer.data(), mBuffer.size());
       if (got)
       {
         setg(mBuffer.data(), mBuffer.data(), mBuffer.data() + got);
@@ -23,7 +23,7 @@ namespace MetaAudio
 
   GoldSrcFileBuf::pos_type GoldSrcFileBuf::seekoff(off_type offset, std::ios_base::seekdir whence, std::ios_base::openmode mode)
   {
-    if (!mFile || (mode & std::ios_base::out) || !(mode & std::ios_base::in))
+    if (mFile.handle_index == -1 || (mode & std::ios_base::out) || !(mode & std::ios_base::in))
     {
       return traits_type::eof();
     }
@@ -44,9 +44,9 @@ namespace MetaAudio
       if ((offset >= 0 && offset < off_type(egptr() - gptr())) ||
         (offset < 0 && -offset <= off_type(gptr() - eback())))
       {
-        auto initialPos = g_pFileSystem->Tell(mFile);
-        g_pFileSystem->Seek(mFile, static_cast<int>(offset), seekType);
-        auto newPos = g_pFileSystem->Tell(mFile);
+        auto initialPos = g_pNightfireFileSystem->COM_FileTell(mFile);
+        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset) + initialPos);
+        auto newPos = g_pNightfireFileSystem->COM_FileTell(mFile);
         if (newPos - initialPos != offset)
         {
           return traits_type::eof();
@@ -58,15 +58,22 @@ namespace MetaAudio
       break;
 
     case std::ios_base::end:
-      offset += g_pFileSystem->Size(mFile);
+      offset += mFileLength;
       break;
 
     default:
       return traits_type::eof();
     }
 
-    g_pFileSystem->Seek(mFile, static_cast<int>(offset), seekType);
-    auto curPosition = g_pFileSystem->Tell(mFile);
+    if (seekType == FILESYSTEM_SEEK_HEAD || seekType == FILESYSTEM_SEEK_TAIL)
+        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset));
+    else if (seekType == FILESYSTEM_SEEK_CURRENT)
+    {
+        auto initialPos = g_pNightfireFileSystem->COM_FileTell(mFile);
+        g_pNightfireFileSystem->COM_FileSeek(mFile, initialPos + static_cast<int>(offset));
+    }
+
+    auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
 
     setg(nullptr, nullptr, nullptr);
     return curPosition;
@@ -74,17 +81,19 @@ namespace MetaAudio
 
   GoldSrcFileBuf::pos_type GoldSrcFileBuf::seekpos(pos_type pos, std::ios_base::openmode mode)
   {
-    if (!mFile || (mode & std::ios_base::out) || !(mode & std::ios_base::in))
+    if (mFile.handle_index == -1 || (mode & std::ios_base::out) || !(mode & std::ios_base::in))
     {
       return traits_type::eof();
     }
 
-    g_pFileSystem->Seek(mFile, static_cast<int>(pos), FILESYSTEM_SEEK_HEAD);
-    if (g_pFileSystem->EndOfFile(mFile))
+    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(pos));
+
+
+    auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
+    if (curPosition >= mFileLength)
     {
       return traits_type::eof();
     }
-    auto curPosition = g_pFileSystem->Tell(mFile);
 
     setg(nullptr, nullptr, nullptr);
     return curPosition;
@@ -92,13 +101,13 @@ namespace MetaAudio
 
   bool GoldSrcFileBuf::open(const char* filename) noexcept
   {
-    mFile = g_pFileSystem->Open(filename, "rb");
-    return mFile;
+    mFileLength = g_pNightfireFileSystem->COM_OpenFile(filename, &mFile);
+    return mFile.handle_index != -1;
   }
 
   GoldSrcFileBuf::~GoldSrcFileBuf()
   {
-    g_pFileSystem->Close(mFile);
-    mFile = nullptr;
+    g_pNightfireFileSystem->COM_CloseFile(mFile);
+    mFile = HCOMFILE();
   }
 }

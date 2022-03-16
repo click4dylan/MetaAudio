@@ -10,7 +10,8 @@ namespace MetaAudio
   {
   private:
     alure::Array<char_type, 2048> mBuffer;
-    FileHandle_t mFile{ nullptr };
+    HCOMFILE mFile;
+    int mFileLength;
 
     int_type underflow() override;
 
