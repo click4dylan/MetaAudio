@@ -94,6 +94,7 @@ void S_FillAddress()
     gAudEngine.cszrawsentences = *(int**)((DWORD)gAudEngine.VOX_Shutdown + 1);
     gAudEngine.rgpszrawsentence = *(char* (**)[CVOXFILESENTENCEMAX])((DWORD)gAudEngine.VOX_Shutdown + 0x13);
     gAudEngine.S_FreeChannel = (void(*)(channel_t*))FindMemoryPattern(g_dwEngineBase, "56 57 8b ? ? ? 83 ? ? ? 75 ? 8b ? 2b ? 83", false);
+    gAudEngine.CL_Parse_RoomType = (int(*)())(FindMemoryPattern(g_dwEngineBase, "83 C4 0C 5E C3 90 90 90 90 90 E9", false) + 0xA);
 
     gAudEngine.Sys_Error = (void(*)(char*, ...))FindMemoryPattern(g_dwEngineBase, "8B 4C 24 04 81 EC 00 04 00 00 8D 84 24 08 04 00 00 50 51 68 00 04 00 00 8D 54 24 0C 52 FF 15 ? ? ? ? A0 ? ? ? ? 84 C0", false);
 
@@ -162,6 +163,10 @@ sfx_t* __cdecl CL_LookupSound(const char* name)
 {
     return p_engine->CL_LookupSound(name);
 }
+int CL_Parse_RoomType()
+{
+    return p_engine->CL_Parse_RoomType();
+}
 
 void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loader)
 {
@@ -178,6 +183,7 @@ void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loade
   InstallHook(S_Update);
   InstallHook(S_LoadSound);
   InstallHook(CL_LookupSound);
+  InstallHook(CL_Parse_RoomType);
 #ifdef _DEBUG
   InstallHook(Sys_Error);
 #endif

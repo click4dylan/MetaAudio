@@ -127,6 +127,7 @@ struct aud_engine_t
 
   //Nightfire
   sfx_t* (*CL_LookupSound)(const char* name);
+  int(*CL_Parse_RoomType)();
 
   //sys_dll.c
 #ifdef _DEBUG
@@ -148,3 +149,4 @@ extern IConsoleVariable xfi_workaround;
 extern IConsoleVariable occluder;
 extern IConsoleVariable occlusion;
 extern IConsoleVariable occlusion_fade;
+extern IConsoleVariable roomtype;

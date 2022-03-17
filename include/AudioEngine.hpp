@@ -24,6 +24,7 @@ namespace MetaAudio
    ConsoleVariable* snd_show = nullptr;
 
     //active control
+    ConsoleVariable* room_type = nullptr;
     ConsoleVariable* al_doppler = nullptr;
     ConsoleVariable* al_xfi_workaround = nullptr;
     ConsoleVariable* al_occluder = nullptr;
@@ -91,5 +92,6 @@ namespace MetaAudio
 
     sfx_t* S_FindName(char* name, int* pfInCache);
     sfx_t* CL_LookupSound(const char* name);
+    int CL_Parse_RoomType();
   };
 }
