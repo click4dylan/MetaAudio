@@ -9,7 +9,7 @@
 
 #include "SoundSources/SoundSourceFactory.hpp"
 
-IConsoleVariable doppler(CVAR_FLOAT, "al_doppler", "", "1.0", FCVAR_EXTDLL);
+IConsoleVariable doppler(CVAR_FLOAT, "al_doppler", "", "0.3", FCVAR_EXTDLL);
 IConsoleVariable xfi_workaround(CVAR_FLOAT, "al_xfi_workaround", "", "0.0", FCVAR_EXTDLL);
 IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "0", FCVAR_EXTDLL);
 
@@ -90,6 +90,13 @@ namespace MetaAudio
 
       if (!sfx)
       {
+          if (known_sfx.size() >= 768)
+          {
+              //TODO: fix hardcoded audio table in CL_LookupSound, etc
+              g_pEngfuncs->Con_Printf("Exceeded our max number of sound effects!! (768)\n");
+              return nullptr;
+          }
+
         auto& result = known_sfx.emplace(name, sfx_t());
         sfx = &(result.first->second);
       }
@@ -98,6 +105,8 @@ namespace MetaAudio
         //free OpenAL buffer and cache
         S_FreeCache(sfx);
       }
+
+      sfx->prefix = 0; //unknown, nightfire uses this
 
       strncpy_s(sfx->name, name, sizeof(sfx->name) - 1);
       sfx->name[sizeof(sfx->name) - 1] = 0;
@@ -113,6 +122,21 @@ namespace MetaAudio
       MessageBox(NULL, e.what(), "Error on S_FindName", MB_ICONERROR);
       exit(0);
     }
+  }
+
+  // Nightfire
+  sfx_t* AudioEngine::CL_LookupSound(const char* name)
+  {
+      sfx_t* og = gAudEngine.CL_LookupSound(name);
+      if (og)
+          return og;
+
+      auto sfx_iterator = known_sfx.find(name);
+      if (sfx_iterator != known_sfx.end())
+      {
+          return &(sfx_iterator->second);
+      }
+      return nullptr;
   }
 
   void AudioEngine::S_CheckWavEnd(aud_channel_t* ch, aud_sfxcache_t* sc)
@@ -276,7 +300,7 @@ namespace MetaAudio
 
     if (sc && sc->length != 0x40000000)
     {
-      fvol /= (*gAudEngine.g_SND_VoiceOverdrive);
+        fvol /= 1.0f; //DYLAN FIXME: WHATS THIS //(*gAudEngine.g_SND_VoiceOverdrive);
     }
 
     ch->sound_source->SetGain(ch->volume * fvol);
@@ -494,6 +518,8 @@ namespace MetaAudio
     ch->entnum = entnum;
     ch->entchannel = entchannel;
     ch->pitch = fpitch;
+
+
 
     if (sfx->name[0] == '!' || sfx->name[0] == '#')
     {

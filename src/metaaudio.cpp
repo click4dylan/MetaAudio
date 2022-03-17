@@ -9,6 +9,7 @@
 #include "Vox/VoxManager.hpp"
 #include "AudioEngine.hpp"
 #include "..\pattern_scanner.h"
+#include <platformdll.h>
 
 MetaAudio::SteamAudio gSteamAudio;
 static std::shared_ptr<MetaAudio::SoundLoader> sound_loader;
@@ -84,18 +85,25 @@ extern aud_export_t gAudExports;
 HINSTANCE g_hInstance, g_hThisModule, g_hSteamAudioInstance;
 DWORD g_dwEngineBase, g_dwEngineSize;
 DWORD g_dwEngineBuildnum;
+NightfirePlatformFuncs* g_pNightfirePlatformFuncs;
 NightfireFileSystem* g_pNightfireFileSystem;
 bool g_bMetaAudioInitialized = false;
 
 // nightfire methods..
-extern "C" __declspec(dllexport) void __cdecl StartMetaAudio(unsigned long hEngineDLL, NightfireFileSystem* filesystem, cl_exportfuncs_t * pExportFunc, cl_enginefunc_t * pEngineFuncs)
+extern "C" __declspec(dllexport) void __cdecl StartMetaAudio(unsigned long hEngineDLL, NightfirePlatformFuncs* platform, NightfireFileSystem* filesystem, cl_exportfuncs_t * pExportFunc, cl_enginefunc_t * pEngineFuncs)
 {
     if (filesystem->version != NIGHTFIRE_FILESYSTEM_VERSION)
     {
         pEngineFuncs->Con_Printf("ERROR: MetaAudio received incorrect NightfireFileSystem version %i, expected %i\n", filesystem->version, NIGHTFIRE_FILESYSTEM_VERSION);
         return;
     }
+    if (filesystem->size != sizeof(NightfireFileSystem))
+    {
+        pEngineFuncs->Con_Printf("ERROR: MetaAudio received incorrect NightfireFileSystem size %i, expected %i\n", filesystem->size, sizeof(NightfireFileSystem));
+        return;
+    }
 
+    g_pNightfirePlatformFuncs = platform;
     g_pNightfireFileSystem = filesystem;
     g_pEngfuncs = pEngineFuncs;
     g_dwEngineBase = hEngineDLL;

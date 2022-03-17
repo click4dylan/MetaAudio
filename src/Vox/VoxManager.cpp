@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <regex>
 #include <cctype>
+#include <NightfireFileSystem.h>
 
 #include "Vox/VoxManager.hpp"
 #include "SoundSources/BaseSoundSource.hpp"
@@ -481,11 +482,17 @@ namespace MetaAudio
         {
           auto& value = voxParameter.value();
           // this is a valid word (as opposed to a parameter block)
+          // 
+          // nightfire uses lwv files instead of wav files
           auto pathbuffer = std::get<0>(sentence) + words[i] + ".wav";
+          auto pathbuffer2 = std::get<0>(sentence) + words[i] + ".lwv";
+          const char* file_to_use = pathbuffer.c_str();
+          if (!g_pNightfireFileSystem->COM_FileExists(pathbuffer.c_str(), nullptr))
+              file_to_use = pathbuffer2.c_str();
 
           // find name, if already in cache, mark voxword
           // so we don't discard when word is done playing
-          value.sfx = m_engine->S_FindName(const_cast<char*>(pathbuffer.c_str()), &value.fKeepCached);
+          value.sfx = m_engine->S_FindName(const_cast<char*>(file_to_use), &value.fKeepCached);
 
           channel->words.emplace(value);
         }
@@ -499,6 +506,11 @@ namespace MetaAudio
     {
       return nullptr;
     }
+
+    //NIGHTFIRE
+    //DYLAN tofix: why do we need to do this?
+    //char tmp[MAX_PATH];
+    //sprintf_s(tmp, "sound/%s", sfx->name + 1);
 
     auto sc = m_loader->S_LoadSound(channel->sfx, channel);
     if (!sc)

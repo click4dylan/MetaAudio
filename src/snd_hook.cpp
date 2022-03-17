@@ -61,6 +61,9 @@ void S_FillAddress()
     gAudEngine.S_LoadSound = (aud_sfxcache_t * (__fastcall *)(void* pgbaudio, void* edx, sfx_t*, aud_channel_t*))FindMemoryPattern(g_dwEngineBase, "81 EC 54 03 00 00 53 8B D9 8B 8C 24 5C 03 00 00 33 C0 55 8D 69 01 89 44 24 1C 89 44 24 18", false);
     Sig_FuncNotFound(S_LoadSound);
 
+    gAudEngine.CL_LookupSound = (sfx_t * (__cdecl*)(const char* name))FindMemoryPattern(g_dwEngineBase, "53 8B 5C 24 08 55 8B 2D ? ? ? ? 56 57 BF ? ? ? ? 8B 37", false);
+    Sig_FuncNotFound(CL_LookupSound);
+
     //gAudEngine.SequenceGetSentenceByIndex = (sentenceEntry_s * (*)(unsigned int))Search_Pattern(SEQUENCE_GETSENTENCEBYINDEX_SIG);
     //Sig_FuncNotFound(SequenceGetSentenceByIndex);
 
@@ -127,33 +130,37 @@ void S_Shutdown()
 { 
     p_engine->S_Shutdown(); 
 }
-sfx_t* S_FindName(char* name, int* pfInCache) 
+sfx_t* __cdecl S_FindName(char* name, int* pfInCache) 
 { 
     return p_engine->S_FindName(name, pfInCache); 
 }
-void S_StartDynamicSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) 
+void __cdecl S_StartDynamicSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch)
 { 
     p_engine->S_StartDynamicSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); 
 };
-void S_StartStaticSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch) 
+void __cdecl S_StartStaticSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch)
 { 
     p_engine->S_StartStaticSound(entnum, entchannel, sfx, origin, fvol, attenuation, flags, pitch); 
 };
-void S_StopSound(int entnum, int entchannel) 
+void __cdecl S_StopSound(int entnum, int entchannel)
 { 
     p_engine->S_StopSound(entnum, entchannel); 
 };
-void S_StopAllSounds(qboolean clear) 
+void __cdecl S_StopAllSounds(qboolean clear)
 { 
     p_engine->S_StopAllSounds(clear); 
 }
-void S_Update(float* origin, float* forward, float* right, float* up) 
+void __cdecl S_Update(float* origin, float* forward, float* right, float* up)
 { 
     p_engine->S_Update(origin, forward, right, up); 
 }
 aud_sfxcache_t* __fastcall S_LoadSound(void* pgbaudio, void* edx, sfx_t* s, aud_channel_t* ch) 
 { 
     return p_loader->S_LoadSound(s, ch); 
+}
+sfx_t* __cdecl CL_LookupSound(const char* name)
+{
+    return p_engine->CL_LookupSound(name);
 }
 
 void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loader)
@@ -170,6 +177,7 @@ void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loade
   InstallHook(S_StopAllSounds);
   InstallHook(S_Update);
   InstallHook(S_LoadSound);
+  InstallHook(CL_LookupSound);
 #ifdef _DEBUG
   InstallHook(Sys_Error);
 #endif

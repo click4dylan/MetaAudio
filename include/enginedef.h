@@ -3,6 +3,7 @@
 
 struct sfx_t
 {
+  char prefix;
   char name[MAX_QPATH];
   cache_user_t cache;
   int servercount;

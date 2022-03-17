@@ -45,7 +45,7 @@ namespace MetaAudio
         (offset < 0 && -offset <= off_type(gptr() - eback())))
       {
         auto initialPos = g_pNightfireFileSystem->COM_FileTell(mFile);
-        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset) + initialPos);
+        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), (GbxFileSeekBehavior)seekType);
         auto newPos = g_pNightfireFileSystem->COM_FileTell(mFile);
         if (newPos - initialPos != offset)
         {
@@ -65,13 +65,7 @@ namespace MetaAudio
       return traits_type::eof();
     }
 
-    if (seekType == FILESYSTEM_SEEK_HEAD || seekType == FILESYSTEM_SEEK_TAIL)
-        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset));
-    else if (seekType == FILESYSTEM_SEEK_CURRENT)
-    {
-        auto initialPos = g_pNightfireFileSystem->COM_FileTell(mFile);
-        g_pNightfireFileSystem->COM_FileSeek(mFile, initialPos + static_cast<int>(offset));
-    }
+    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), (GbxFileSeekBehavior)seekType);
 
     auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
 
@@ -86,14 +80,14 @@ namespace MetaAudio
       return traits_type::eof();
     }
 
-    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(pos));
+    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(pos), GbxFileSeekBehavior::SEEK_FROM_START);
 
-
-    auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
-    if (curPosition >= mFileLength)
+    if (g_pNightfireFileSystem->COM_EndOfFile(mFile))
     {
       return traits_type::eof();
     }
+
+    auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
 
     setg(nullptr, nullptr, nullptr);
     return curPosition;

@@ -90,5 +90,6 @@ namespace MetaAudio
     void S_Update(float* origin, float* forward, float* right, float* up);
 
     sfx_t* S_FindName(char* name, int* pfInCache);
+    sfx_t* CL_LookupSound(const char* name);
   };
 }

@@ -125,6 +125,9 @@ struct aud_engine_t
   //sequence.c
   sentenceEntry_s*(*SequenceGetSentenceByIndex)(unsigned int index);
 
+  //Nightfire
+  sfx_t* (*CL_LookupSound)(const char* name);
+
   //sys_dll.c
 #ifdef _DEBUG
   void(*Sys_Error)(char *fmt, ...);

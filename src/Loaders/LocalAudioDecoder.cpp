@@ -4,7 +4,7 @@
 
 namespace MetaAudio
 {
-  const alure::Array<alure::String, 4> LocalAudioDecoder::SupportedExtensions = { ".wav", ".flac", ".ogg", ".mp3" };
+  const alure::Array<alure::String, 5> LocalAudioDecoder::SupportedExtensions = { ".wav", ".flac", ".ogg", ".mp3", ".lwv" };
 
   bool LocalAudioDecoder::GetWavinfo(wavinfo_t& info, alure::String full_path, alure::Vector<ALubyte>& data_output)
   {
