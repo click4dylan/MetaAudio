@@ -34,7 +34,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -84,13 +84,16 @@
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>E:\nightfire_sdk\MetaAudio\include;E:\nightfire_sdk\MetaAudio\externals\picojson;E:\nightfire_sdk\MetaAudio\externals\steamaudio\include;E:\nightfire_sdk\MetaAudio\externals\alure\include\AL;E:\nightfire_sdk\MetaAudio\externals\openal-soft\include\AL;E:\nightfire_sdk\MetaAudio\externals\metahook\include;E:\nightfire_sdk\MetaAudio\externals\metahook\include\interface;$(HLSDK)\common;$(HLSDK)\cl_dll;$(HLSDK)\engine;$(HLSDK)\public;$(HLSDK)\pm_shared;E:\nightfire_sdk\MetaAudio\externals\openal-soft\include;C:\\Program Files (x86)\\OpenAL 1.1 SDK\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -102,6 +105,8 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;AUDIO_EXPORTS;NOMINMAX;PICOJSON_USE_INT64;CMAKE_INTDIR="Debug";MetaAudio_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;AUDIO_EXPORTS;NOMINMAX;PICOJSON_USE_INT64;CMAKE_INTDIR=\"Debug\";MetaAudio_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -124,6 +129,7 @@
       <ImportLibrary>E:/nightfire_sdk/MetaAudio/Debug/MetaAudio.lib</ImportLibrary>
       <ProgramDataBaseFile>E:/nightfire_sdk/MetaAudio/Debug/MetaAudio.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>

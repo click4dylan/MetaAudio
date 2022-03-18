@@ -107,6 +107,22 @@ extern "C" __declspec(dllexport) void __cdecl StartMetaAudio(unsigned long hEngi
     g_pNightfireFileSystem = filesystem;
     g_pEngfuncs = pEngineFuncs;
     g_dwEngineBase = hEngineDLL;
+
+    g_hSteamAudioInstance = LoadLibrary("phonon.dll");
+    if (g_hSteamAudioInstance)
+    {
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplCleanup);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplDestroyEnvironment);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplDestroyScene);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplDestroyStaticMesh);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplGetDirectSoundPath);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplCreateScene);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplCreateStaticMesh);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplCreateEnvironment);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplCreateContext);
+        SetSteamAudioFunctionPointer(gSteamAudio, g_hSteamAudioInstance, iplDestroyContext);
+    }
+
     
     auto audio_cache = std::make_shared<MetaAudio::AudioCache>();
     sound_loader = std::make_shared<MetaAudio::SoundLoader>(audio_cache);

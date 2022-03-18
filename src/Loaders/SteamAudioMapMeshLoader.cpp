@@ -40,15 +40,56 @@ namespace MetaAudio
     return left[0] * right[0] + left[1] * right[1] + left[2] * right[2];
   }
 
+  // temporary
+  void recursively_add_verts(std::vector<mface_t*> & faces_used, std::vector<alure::Vector3>& vertices, model_t* model, mbrush_t* brush)
+  {
+        for (int i = 0; i < brush->numsides; ++i)
+        {
+            mbrushside_t* side = &brush->sides[i];
+            msurface_t* surf = side->surface;
+            if (!surf)
+                continue;
+
+            if (surf->parent_face)
+            {
+                int vertex = surf->parent_face->firstVertex;
+                int numvertexes = surf->parent_face->numVertices;
+
+                auto found = std::find(faces_used.begin(), faces_used.end(), surf->parent_face);
+                if (found == faces_used.end())
+                {
+                    for (int i = 0; i < numvertexes; ++i)
+                    {
+                        vertices.emplace_back(model->verts[vertex + i]);
+                    }
+                    faces_used.emplace_back(surf->parent_face);
+                }
+                else
+                {
+                    int alreadyadded = 1;
+                }
+            }
+            else if (surf->parent_brush)
+            {
+                //recursively_add_verts(vertices, model, surf->parent_brush);
+            }
+            else
+            {
+                int wtf = 1;
+            }
+        }
+  }
+
   void SteamAudioMapMeshLoader::update()
   {
     // check map
+
     bool paused = false;
     {
       cl_entity_s* map = g_pEngfuncs->GetEntityByIndex(0);
       if (map == nullptr ||
           map->model == nullptr ||
-          map->model->needload ||
+          !map->model->isloaded ||
           g_pEngfuncs->GetLevelName() == nullptr ||
           _stricmp(g_pEngfuncs->GetLevelName(), map->model->name) != 0)
       {
@@ -62,12 +103,45 @@ namespace MetaAudio
           return;
         }
 
+        std::vector<mface_t*> faces_used;
         std::vector<IPLTriangle> triangles;
         std::vector<IPLVector3> vertices;
 
         for (int i = 0; i < mapModel->nummodelsurfaces; ++i)
         {
-          auto surface = mapModel->surfaces[mapModel->firstmodelsurface + i];
+          std::vector<alure::Vector3> surfaceVerts;
+          msurface_t* surf = &mapModel->surfaces[mapModel->firstmodelsurface + i];
+              
+          if (surf->parent_face)
+          {
+              auto found = std::find(faces_used.begin(), faces_used.end(), surf->parent_face);
+              if (found == faces_used.end())
+              {
+                  int vertex = surf->parent_face->firstVertex;
+                  int numvertexes = surf->parent_face->numVertices;
+
+                  for (int i = 0; i < numvertexes; ++i)
+                  {
+                      surfaceVerts.emplace_back(mapModel->verts[vertex + i]);
+                  }
+                  faces_used.emplace_back(surf->parent_face);
+              }
+              else
+              {
+                  int alreadyused = 1;
+              }
+          }
+          else if (surf->parent_brush)
+          {
+             recursively_add_verts(faces_used, surfaceVerts, mapModel, surf->parent_brush);
+          }
+          else
+          {
+              int wtf = 1;
+              continue;
+          }
+
+#if 0
           glpoly_t* poly = surface.polys;
           std::vector<alure::Vector3> surfaceVerts;
           while (poly)
@@ -86,6 +160,7 @@ namespace MetaAudio
             if (poly == surface.polys)
               break;
           }
+#endif
 
           // triangulation
 
@@ -115,6 +190,7 @@ namespace MetaAudio
               if (std::fabs(vertDot + 1.f) < EPSILON)
               {
                 // colinear, drop it
+                  int test = 1;
               }
               else
               {
