@@ -146,6 +146,7 @@ extern aud_engine_t gAudEngine;
 
 extern IConsoleVariable doppler;
 extern IConsoleVariable xfi_workaround;
+extern IConsoleVariable sndsnow;
 extern IConsoleVariable occluder;
 extern IConsoleVariable occlusion;
 extern IConsoleVariable occlusion_fade;

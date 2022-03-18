@@ -15,7 +15,7 @@ namespace MetaAudio
   {
     // 0 = regular player hull, 1 = ducked player hull, 2 = point hull
     event_api.EV_SetTraceHull(2);
-    event_api.EV_PlayerTrace(reinterpret_cast<float*>(start), reinterpret_cast<float*>(end), PM_STUDIO_IGNORE, -1, &tr);
+    event_api.EV_PlayerTrace(reinterpret_cast<float*>(start), reinterpret_cast<float*>(end), 0, PM_STUDIO_IGNORE, -1, &tr);
   }
 
   OcclusionFrequencyGain GoldSrcOcclusionCalculator::GetParameters(

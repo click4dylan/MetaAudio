@@ -25,6 +25,7 @@ namespace MetaAudio
 
     //active control
     ConsoleVariable* room_type = nullptr;
+    ConsoleVariable* waterroom_type = nullptr;
     ConsoleVariable* al_doppler = nullptr;
     ConsoleVariable* al_xfi_workaround = nullptr;
     ConsoleVariable* al_occluder = nullptr;

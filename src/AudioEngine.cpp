@@ -11,8 +11,10 @@
 
 IConsoleVariable doppler(CVAR_FLOAT, "al_doppler", "", "0.3", FCVAR_EXTDLL);
 IConsoleVariable xfi_workaround(CVAR_FLOAT, "al_xfi_workaround", "", "0.0", FCVAR_EXTDLL);
+IConsoleVariable sndshow(CVAR_BOOL, "snd_show", "", "0", FCVAR_EXTDLL);
 IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "0", FCVAR_EXTDLL);
 IConsoleVariable roomtype(CVAR_INT, "room_type", "", "0", FCVAR_EXTDLL);
+IConsoleVariable waterroomtype(CVAR_INT, "waterroom_type", "", "14", FCVAR_EXTDLL);
 
 namespace MetaAudio
 {
@@ -335,6 +337,8 @@ namespace MetaAudio
         else
           al_listener.setGain(1.0f);
       }
+
+      float test = al_doppler->getValueFloat();
 
       al_context->setDopplerFactor(std::clamp(al_doppler->getValueFloat(), 0.0f, 10.0f));
 
@@ -786,8 +790,10 @@ namespace MetaAudio
     S_Startup();
 
     room_type = g_pEngfuncs->CreateConsoleVariableClient(roomtype);
+    waterroom_type = g_pEngfuncs->CreateConsoleVariableClient(waterroomtype);
     al_doppler = g_pEngfuncs->CreateConsoleVariableClient(doppler);
     al_xfi_workaround = g_pEngfuncs->CreateConsoleVariableClient(xfi_workaround);
+    
     if (gSteamAudio.iplCleanup != nullptr)
     {
       al_occluder = g_pEngfuncs->CreateConsoleVariableClient(occluder);
@@ -801,7 +807,7 @@ namespace MetaAudio
       volume = g_pEngfuncs->GetConsoleVariableClient("snd_mastervolume");
       sxroomwater_type = g_pEngfuncs->GetConsoleVariableClient("waterroom_type");
       sxroom_type = g_pEngfuncs->GetConsoleVariableClient("room_type");
-      snd_show = g_pEngfuncs->GetConsoleVariableClient("snd_show");
+      snd_show = g_pEngfuncs->CreateConsoleVariableClient(sndshow);
 
       S_StopAllSounds(true);
     }
@@ -850,6 +856,8 @@ namespace MetaAudio
 
     if (room_type)
         g_pEngfuncs->DestroyConsoleVariableClient(&roomtype);
+    if (waterroom_type)
+        g_pEngfuncs->DestroyConsoleVariableClient(&waterroomtype);
     if (al_doppler)
         g_pEngfuncs->DestroyConsoleVariableClient(&doppler);
     if (al_xfi_workaround)
@@ -860,6 +868,8 @@ namespace MetaAudio
         g_pEngfuncs->DestroyConsoleVariableClient(&occlusion);
     if (al_occlusion_fade)
         g_pEngfuncs->DestroyConsoleVariableClient(&occlusion_fade);
+    if (snd_show)
+        g_pEngfuncs->DestroyConsoleVariableClient(&sndshow);
   }
 
   // Nightfire
