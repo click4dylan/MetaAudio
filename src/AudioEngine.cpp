@@ -12,8 +12,9 @@
 IConsoleVariable doppler(CVAR_FLOAT, "al_doppler", "", "0.3", FCVAR_EXTDLL);
 IConsoleVariable xfi_workaround(CVAR_FLOAT, "al_xfi_workaround", "", "0.0", FCVAR_EXTDLL);
 IConsoleVariable sndshow(CVAR_BOOL, "snd_show", "", "0", FCVAR_EXTDLL);
-IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "0", FCVAR_EXTDLL);
+IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "1", FCVAR_EXTDLL);
 IConsoleVariable roomtype(CVAR_INT, "room_type", "", "0", FCVAR_EXTDLL);
+IConsoleVariable roomoff(CVAR_BOOL, "room_off", "", "0", FCVAR_EXTDLL);
 IConsoleVariable waterroomtype(CVAR_INT, "waterroom_type", "", "14", FCVAR_EXTDLL);
 
 namespace MetaAudio
@@ -55,6 +56,9 @@ namespace MetaAudio
 
   sfx_t* AudioEngine::S_FindName(char* name, int* pfInCache)
   {
+      if (strstr(name, ".ogg"))
+          int test = 1;
+
     try
     {
       sfx_t* sfx = nullptr;
@@ -304,6 +308,9 @@ namespace MetaAudio
   {
     try
     {
+      // call nightfire's original S_Update...
+      //gAudEngine.S_Update(origin, forward, right, up);
+
       vec_t orientation[6];
 
       // Update Alure's OpenAL context at the start of processing.
@@ -431,6 +438,37 @@ namespace MetaAudio
     SND_Spatialize(channel, true);
   }
 
+  float get_fixed_pitch_for_sound(sfx_t* sfx, int pitch)
+  {
+      // temporary hack to fix broken footstep sounds
+      if (strstr(sfx->name, "player/pl_"))
+      {
+          const char* file = sfx->name + 10;
+          if (strstr(file, "step")
+              || strstr(file, "dirt")
+              || strstr(file, "metal")
+              || strstr(file, "carpet")
+              || strstr(file, "snow")
+              || strstr(file, "tile")
+              || strstr(file, "grate")
+              || strstr(file, "sand")
+              || strstr(file, "duct")
+              || strstr(file, "ladder")
+              || strstr(file, "wade")
+              || strstr(file, "slosh")
+              || strstr(file, "girttyconcrete"))
+          {
+              return g_pEngfuncs->RandomLong(90, 110);
+          }              
+      }
+      else if (strstr(sfx->name, "weapons/ric"))
+      {
+          return g_pEngfuncs->RandomLong(80, 120);
+      }
+
+      return pitch;
+  }
+
   void AudioEngine::S_StartSound(int entnum, int entchannel, sfx_t* sfx, float* origin, float fvol, float attenuation, int flags, int pitch, bool is_static)
   {
     std::string _function_name;
@@ -466,15 +504,23 @@ namespace MetaAudio
       pitch = 100;
     }
 
+    if (pitch != PITCH_NORM)
+    {
+      g_pEngfuncs->Con_Printf("%s has pitch %i\n", sfx->name, pitch);
+    }
+
     if (fvol > 1.0f)
     {
       g_pEngfuncs->Con_DPrintf("%s: %s fvolume > 1.0", _function_name, sfx->name);
     }
 
-    fpitch = pitch / 100.0f;
+    fpitch = get_fixed_pitch_for_sound(sfx, pitch) / 100.0f;
 
     if (flags & (SND_STOP | SND_CHANGE_VOL | SND_CHANGE_PITCH))
     {
+        //gbx does this for some reason?
+        //attenuation /= 1000.0f;
+
       if (channel_manager->S_AlterChannel(entnum, entchannel, sfx, fvol, fpitch, flags))
         return;
 
@@ -789,7 +835,12 @@ namespace MetaAudio
   {
     S_Startup();
 
+    g_pEngfuncs->RegisterClient(&fAL_Version);
+    g_pEngfuncs->RegisterClient(&fAL_ResetEFX);
+    g_pEngfuncs->RegisterClient(&fAL_BasicDevices);
+    g_pEngfuncs->RegisterClient(&fAL_FullDevices);
     room_type = g_pEngfuncs->CreateConsoleVariableClient(roomtype);
+    room_off = g_pEngfuncs->CreateConsoleVariableClient(roomoff);
     waterroom_type = g_pEngfuncs->CreateConsoleVariableClient(waterroomtype);
     al_doppler = g_pEngfuncs->CreateConsoleVariableClient(doppler);
     al_xfi_workaround = g_pEngfuncs->CreateConsoleVariableClient(xfi_workaround);
@@ -854,8 +905,11 @@ namespace MetaAudio
 
     gAudEngine.S_Shutdown();
 
+    // unregister cvars
     if (room_type)
         g_pEngfuncs->DestroyConsoleVariableClient(&roomtype);
+    if (room_off)
+        g_pEngfuncs->DestroyConsoleVariableClient(&roomoff);
     if (waterroom_type)
         g_pEngfuncs->DestroyConsoleVariableClient(&waterroomtype);
     if (al_doppler)
@@ -870,6 +924,12 @@ namespace MetaAudio
         g_pEngfuncs->DestroyConsoleVariableClient(&occlusion_fade);
     if (snd_show)
         g_pEngfuncs->DestroyConsoleVariableClient(&sndshow);
+
+    // unregister console funcs
+    g_pEngfuncs->UnregisterClient(&fAL_Version);
+    g_pEngfuncs->UnregisterClient(&fAL_ResetEFX);
+    g_pEngfuncs->UnregisterClient(&fAL_BasicDevices);
+    g_pEngfuncs->UnregisterClient(&fAL_FullDevices);
   }
 
   // Nightfire

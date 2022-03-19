@@ -143,7 +143,6 @@ void S_InstallHook(MetaAudio::AudioEngine* engine, MetaAudio::SoundLoader* loade
 //common
 extern aud_engine_t gAudEngine;
 
-
 extern IConsoleVariable doppler;
 extern IConsoleVariable xfi_workaround;
 extern IConsoleVariable sndsnow;
@@ -151,3 +150,56 @@ extern IConsoleVariable occluder;
 extern IConsoleVariable occlusion;
 extern IConsoleVariable occlusion_fade;
 extern IConsoleVariable roomtype;
+
+class CAL_Version : public ConsoleFunction
+{
+public:
+    virtual void run(unsigned int numargs, const char** args);
+    CAL_Version(const char* _name, const char* _description = "", unsigned int _flags = 0)
+    {
+        name = _name;
+        description = _description;
+        flags = _flags;
+    }
+};
+
+extern CAL_Version fAL_Version;
+
+class CAL_ResetEFX : public ConsoleFunction
+{
+public:
+    virtual void run(unsigned int numargs, const char** args);
+    CAL_ResetEFX(const char* _name, const char* _description = "", unsigned int _flags = 0)
+    {
+        name = _name;
+        description = _description;
+        flags = _flags;
+    }
+};
+extern CAL_ResetEFX fAL_ResetEFX;
+
+class CAL_BasicDevices : public ConsoleFunction
+{
+public:
+    virtual void run(unsigned int numargs, const char** args);
+    CAL_BasicDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
+    {
+        name = _name;
+        description = _description;
+        flags = _flags;
+    }
+};
+extern CAL_BasicDevices fAL_BasicDevices;
+
+class CAL_FullDevices : public ConsoleFunction
+{
+public:
+    virtual void run(unsigned int numargs, const char** args);
+    CAL_FullDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
+    {
+        name = _name;
+        description = _description;
+        flags = _flags;
+    }
+};
+extern CAL_FullDevices fAL_FullDevices;

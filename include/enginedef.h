@@ -62,15 +62,15 @@ struct wavinfo_t
 };
 
 // a sound with no channel is a local only sound
-constexpr auto SND_VOLUME = (1 << 0);       // a byte
-constexpr auto SND_ATTENUATION = (1<<1);    // a byte
-constexpr auto SND_LARGE_INDEX = (1<<2);    // a long
-constexpr auto SND_PITCH = (1<<3);
-constexpr auto SND_SENTENCE = (1<<4);
-constexpr auto SND_STOP = (1<<5);
-constexpr auto SND_CHANGE_VOL = (1<<6);
-constexpr auto SND_CHANGE_PITCH = (1<<7);
-constexpr auto SND_SPAWNING = (1<<8);
+constexpr auto SND_VOLUME = (1 << 0); //0x1       // a byte
+constexpr auto SND_ATTENUATION = (1<<1); //0x2    // a byte
+constexpr auto SND_LARGE_INDEX = (1<<2); //0x4   // a long
+constexpr auto SND_PITCH = (1<<3); //0x8
+constexpr auto SND_SENTENCE = (1<<4); //0x10
+constexpr auto SND_STOP = (1<<5); //0x20
+constexpr auto SND_CHANGE_VOL = (1<<6); //0x40
+constexpr auto SND_CHANGE_PITCH = (1<<7); //0x80
+constexpr auto SND_SPAWNING = (1<<8); //0x100
 
 constexpr auto CVOXWORDMAX = 32;
 constexpr auto CVOXZEROSCANMAX = 255;

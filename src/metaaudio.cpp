@@ -15,70 +15,26 @@ MetaAudio::SteamAudio gSteamAudio;
 static std::shared_ptr<MetaAudio::SoundLoader> sound_loader;
 static std::unique_ptr<MetaAudio::AudioEngine> audio_engine;
 
-class CAL_Version : public ConsoleFunction
+CAL_Version fAL_Version("al_version");
+void CAL_Version::run(unsigned int numargs, const char** args)
 {
-public:
-    virtual void run(unsigned int numargs, const char** args)
-    {
-        audio_engine->AL_Version();
-    }
-    CAL_Version(const char* _name, const char* _description = "", unsigned int _flags = 0)
-    {
-        name = _name;
-        description = _description;
-        flags = _flags;
-    }
-};
-CAL_Version AL_Version("al_version");
-
-class CAL_ResetEFX : public ConsoleFunction
+    audio_engine->AL_Version();
+}
+CAL_ResetEFX fAL_ResetEFX("al_reset_efx");
+void CAL_ResetEFX::run(unsigned int numargs, const char** args)
 {
-public:
-    virtual void run(unsigned int numargs, const char** args)
-    {
-        audio_engine->AL_ResetEFX();
-    }
-    CAL_ResetEFX(const char* _name, const char* _description = "", unsigned int _flags = 0)
-    {
-        name = _name;
-        description = _description;
-        flags = _flags;
-    }
-};
-CAL_ResetEFX AL_ResetEFX("al_reset_efx");
-
-class CAL_BasicDevices : public ConsoleFunction
+    audio_engine->AL_ResetEFX();
+}
+CAL_BasicDevices fAL_BasicDevices("al_show_basic_devices");
+void CAL_BasicDevices::run(unsigned int numargs, const char** args)
 {
-public:
-    virtual void run(unsigned int numargs, const char** args)
-    {
-        audio_engine->AL_Devices(true);
-    }
-    CAL_BasicDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
-    {
-        name = _name;
-        description = _description;
-        flags = _flags;
-    }
-};
-CAL_BasicDevices AL_BasicDevices("al_show_basic_devices");
-
-class CAL_FullDevices : public ConsoleFunction
+    audio_engine->AL_Devices(true);
+}
+CAL_FullDevices fAL_FullDevices("al_show_full_devices");
+void CAL_FullDevices::run(unsigned int numargs, const char** args)
 {
-public:
-    virtual void run(unsigned int numargs, const char** args)
-    {
-        audio_engine->AL_Devices(false);
-    }
-    CAL_FullDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
-    {
-        name = _name;
-        description = _description;
-        flags = _flags;
-    }
-};
-CAL_FullDevices AL_FullDevices("al_show_full_devices");
-
+    audio_engine->AL_Devices(false);
+}
 
 cl_enginefunc_t* g_pEngfuncs = nullptr;
 extern aud_export_t gAudExports;
