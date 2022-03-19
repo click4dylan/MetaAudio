@@ -114,33 +114,29 @@ namespace MetaAudio
               
           if (surf->parent_face)
           {
-              auto found = std::find(faces_used.begin(), faces_used.end(), surf->parent_face);
-              if (found == faces_used.end())
-              {
-                  int vertex = surf->parent_face->firstVertex;
-                  int numvertexes = surf->parent_face->numVertices;
+              int firstvertex = surf->parent_face->firstVertex;
+              int numvertexes = surf->parent_face->numVertices;
+              int firstindex = surf->parent_face->firstIndex;
+              int numindices = surf->parent_face->numIndices;
 
-                  for (int i = 0; i < numvertexes; ++i)
+              vec3_t* vertex = &mapModel->verts[firstvertex];
+              int* indices = (int*)&mapModel->indices[firstindex];
+              int indexes_processed = 0;
+              while (indexes_processed < numindices)
+              {
+                  vec3_t coord;
+                  for (int i = 0; i < 3; ++i)
                   {
-                      surfaceVerts.emplace_back(mapModel->verts[vertex + i]);
+                      int index = indices[i];
+                      coord[i] = *vertex[i];
+                      ++indexes_processed;
                   }
-                  faces_used.emplace_back(surf->parent_face);
+                  surfaceVerts.emplace_back((ALfloat*)&coord);
+                  ++indices;
+                  if (++vertex >= &mapModel->verts[firstvertex + numvertexes])
+                      break;
               }
-              else
-              {
-                  int alreadyused = 1;
-              }
           }
-          else if (surf->parent_brush)
-          {
-             recursively_add_verts(faces_used, surfaceVerts, mapModel, surf->parent_brush);
-          }
-          else
-          {
-              int wtf = 1;
-              continue;
-          }
-
 #if 0
           glpoly_t* poly = surface.polys;
           std::vector<alure::Vector3> surfaceVerts;

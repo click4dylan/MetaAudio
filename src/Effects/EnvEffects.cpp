@@ -123,13 +123,23 @@ namespace MetaAudio
           alure::Vector3(pent->origin[0], pent->origin[1], pent->origin[2]));
         float zero_gain_distance = FLT_MAX;
         if (ch->attenuation)
-        {
           zero_gain_distance = (1000.0f / ch->attenuation) * (1000.0f / ch->attenuation);
-        }
 
         if (distance < zero_gain_distance)
         {
           auto radius = sent->model != nullptr ? sent->model->radius * AL_UnitToMeters : 1.0f;
+
+#if 0
+          if (radius == 0.0f && sent->model)
+          {
+              if (!strcmp(ch->sfx->name, "weapons/grenade_explode.wav")
+                  && !strcmp(sent->model->name, "models/w_grenade_projectile.mdl"))
+              {
+                  radius = 125.0f;
+              }
+          }
+#endif
+    
           auto getVector = [](float* from)
           {
             auto ret = AL_UnpackVector(from);

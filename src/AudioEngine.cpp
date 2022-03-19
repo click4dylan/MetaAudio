@@ -309,7 +309,8 @@ namespace MetaAudio
     try
     {
       // call nightfire's original S_Update...
-      //gAudEngine.S_Update(origin, forward, right, up);
+      // required for music to work. music still uses gearbox software's audio engine
+      gAudEngine.S_Update(origin, forward, right, up);
 
       vec_t orientation[6];
 
