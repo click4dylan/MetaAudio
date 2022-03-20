@@ -78,6 +78,7 @@ namespace MetaAudio
 
     // Checks if map is current , if not update it
     void update();
+    void drawmesh();
 
     // get current scene data as an IPLhandle
     IPLhandle CurrentEnvironment();

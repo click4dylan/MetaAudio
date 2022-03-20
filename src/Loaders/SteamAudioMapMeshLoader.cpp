@@ -3,6 +3,7 @@
 #include "snd_local.h"
 #include "Utilities/VectorUtils.hpp"
 #include "Loaders/SteamAudioMapMeshLoader.hpp"
+#include <bsprender.h>
 
 namespace MetaAudio
 {
@@ -80,8 +81,34 @@ namespace MetaAudio
         }
   }
 
+
+  std::vector<BSPLine> bsp_wires;
+
+  void SteamAudioMapMeshLoader::drawmesh()
+  {
+      int drawn = 0;
+      int i = 0;
+      for (auto& l : bsp_wires)
+      {
+          if (drawn == 3)
+          {
+              if (i % 3 == 0 && rand() % 150 == 0)
+                  drawn = 0;
+          }
+          if (drawn < 3)
+          {
+              g_pEngfuncs->pEffectsAPI->R_TracerEffect(&l.start[0], &l.end[0]);
+              ++drawn;
+          }
+          ++i;
+      }
+  }
+
   void SteamAudioMapMeshLoader::update()
   {
+    // draw mesh
+    //drawmesh();
+
     // check map
 
     bool paused = false;
@@ -103,119 +130,98 @@ namespace MetaAudio
           return;
         }
 
-        std::vector<mface_t*> faces_used;
         std::vector<IPLTriangle> triangles;
         std::vector<IPLVector3> vertices;
+
+#if 1
+        bsp_wires.clear();
+#endif
 
         for (int i = 0; i < mapModel->nummodelsurfaces; ++i)
         {
           std::vector<alure::Vector3> surfaceVerts;
           msurface_t* surf = &mapModel->surfaces[mapModel->firstmodelsurface + i];
               
-          if (surf->parent_face)
-          {
-              int firstvertex = surf->parent_face->firstVertex;
-              int numvertexes = surf->parent_face->numVertices;
-              int firstindex = surf->parent_face->firstIndex;
-              int numindices = surf->parent_face->numIndices;
-
-              vec3_t* vertex = &mapModel->verts[firstvertex];
-              int* indices = (int*)&mapModel->indices[firstindex];
-              int indexes_processed = 0;
-              while (indexes_processed < numindices)
-              {
-                  vec3_t coord;
-                  for (int i = 0; i < 3; ++i)
-                  {
-                      int index = indices[i];
-                      coord[i] = *vertex[i];
-                      ++indexes_processed;
-                  }
-                  surfaceVerts.emplace_back((ALfloat*)&coord);
-                  ++indices;
-                  if (++vertex >= &mapModel->verts[firstvertex + numvertexes])
-                      break;
-              }
-          }
-#if 0
-          glpoly_t* poly = surface.polys;
-          std::vector<alure::Vector3> surfaceVerts;
-          while (poly)
-          {
-            if (poly->numverts <= 0)
+          if (!surf->parent_face)
               continue;
 
-            for (int j = 0; j < poly->numverts; ++j)
+            int firstvertex = surf->parent_face->firstVertex;
+            int numvertexes = surf->parent_face->numVertices;
+            int firstindex = surf->parent_face->firstIndex;
+            int numindices = surf->parent_face->numIndices;
+
+            // nightfire face render method
+#if 1
+            vec3_t* vertex = &mapModel->verts[firstvertex];
+            int* indices = (int*)&mapModel->indices[firstindex];
+            int indexes_processed = 0;
+            vec3_t first_coord;
+            vec3_t last_coord;
+            while (indexes_processed < numindices)
             {
-              surfaceVerts.emplace_back(MetaAudio::AL_UnpackVector(poly->verts[j]));
+                vec3_t coord;
+                int draw_index = 2;
+                for (int i = 0; i < 3; ++i)
+                {
+                    //int index = indices[i];
+                    //coord[i] = (*vertex)[index];
+                    ++indexes_processed;
+                }
+
+                coord[0] = (*vertex)[0];
+                coord[1] = (*vertex)[1];
+                coord[2] = (*vertex)[2];
+
+                if (indexes_processed == 3)
+                {
+                    // new line start pos
+                    first_coord[0] = last_coord[0] = coord[0];
+                    first_coord[1] = last_coord[1] = coord[1];
+                    first_coord[2] = last_coord[2] = coord[2];
+                }
+                else
+                {
+                    // next line pos
+                    bsp_wires.emplace_back(last_coord, coord);
+                    last_coord[0] = coord[0];
+                    last_coord[1] = coord[1];
+                    last_coord[2] = coord[2];
+                }
+
+                indices += 3;
+
+                if (++vertex >= &mapModel->verts[firstvertex + numvertexes])
+                    break; // never gets hit, thankfully
             }
 
-            poly = poly->next;
-
-            // escape rings
-            if (poly == surface.polys)
-              break;
-          }
+            if (indexes_processed)
+                bsp_wires.emplace_back(last_coord, first_coord);
 #endif
 
-          // triangulation
+            { // generate indices
+                int indexoffset = vertices.size();
 
-          // Get rid of duplicate vertices
-          surfaceVerts.erase(std::unique(surfaceVerts.begin(), surfaceVerts.end(), VectorEquals), surfaceVerts.end());
+                int* indices = (int*)&mapModel->indices[firstindex];
+                for (size_t i = 0; i < numindices; i += 3)
+                {
+                    auto& triangle = triangles.emplace_back();
+                    triangle.indices[0] = indexoffset + indices[2];
+                    triangle.indices[1] = indexoffset + indices[1];
+                    triangle.indices[2] = indexoffset + indices[0];
+                    indices += 3;
+                }
 
-          // Skip invalid face
-          if (surfaceVerts.size() < 3)
-          {
-            continue;
-          }
-
-          // Triangulate
-          alure::Vector3 origin{ 0,0,0 };
-          alure::Vector<IPLVector3> newVerts;
-          { // remove colinear
-            for (size_t i = 0; i < surfaceVerts.size(); ++i)
-            {
-              auto vertexBefore = origin + surfaceVerts[(i > 0) ? (i - 1) : (surfaceVerts.size() - 1)];
-              auto vertex = origin + surfaceVerts[i];
-              auto vertexAfter = origin + surfaceVerts[(i < (surfaceVerts.size() - 1)) ? (i + 1) : 0];
-
-              auto v1 = Normalize(vertexBefore - vertex);
-              auto v2 = Normalize(vertexAfter - vertex);
-
-              float vertDot = DotProduct(v1, v2);
-              if (std::fabs(vertDot + 1.f) < EPSILON)
-              {
-                // colinear, drop it
-                  int test = 1;
-              }
-              else
-              {
-                newVerts.emplace_back<IPLVector3>({ vertex[0], vertex[1], vertex[2] });
-              }
+                // Add vertices to final array
+                vec3_t* vertex = &mapModel->verts[firstvertex];
+                for (int i = 0; i < numvertexes; ++i)
+                {
+                    auto& verts = vertices.emplace_back();
+                    verts.x = (*vertex)[0];
+                    verts.y = (*vertex)[1];
+                    verts.z = (*vertex)[2];
+                    ++vertex;
+                }
             }
-          }
-
-          // Skip invalid face, it is just a line
-          if (newVerts.size() < 3)
-          {
-            continue;
-          }
-
-          { // generate indices
-            int indexoffset = vertices.size();
-
-            for (size_t i = 0; i < newVerts.size() - 2; ++i)
-            {
-              auto& triangle = triangles.emplace_back();
-
-              triangle.indices[0] = indexoffset + i + 2;
-              triangle.indices[1] = indexoffset + i + 1;
-              triangle.indices[2] = indexoffset;
-            }
-
-            // Add vertices to final array
-            vertices.insert(vertices.end(), newVerts.begin(), newVerts.end());
-          }
         }
 
         IPLhandle scene = nullptr;
