@@ -1,5 +1,18 @@
 #include "Loaders/SoundLoader.hpp"
 #include "Voice/VoiceDecoder.hpp"
+#include "..\pattern_scanner.h"
+
+void CGBWav::getWavInfo(const char* name, unsigned char* heapfile, long size)
+{
+    //0x4307FC30
+    
+    auto engine = GetModuleHandleA("engine.dll");
+    if (engine)
+    {
+        DWORD address = FindMemoryPattern((DWORD)engine, "83 EC 18 56 57 6A 18 6A 00 8D 44 24 10 50", false);
+        ((void(__cdecl*)(CGBWav*, const char*, unsigned char*, long))address)(this, name, heapfile, size);
+    }
+}
 
 namespace MetaAudio
 {

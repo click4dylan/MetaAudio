@@ -129,7 +129,7 @@ namespace MetaAudio
         {
           auto radius = sent->model != nullptr ? sent->model->radius * AL_UnitToMeters : 1.0f;
 
-#if 1
+#if 0
           if (radius == 0.0f && sent->model)
           {
               if (!strcmp(ch->sfx->name, "weapons/grenade_explode.wav")

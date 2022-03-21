@@ -56,9 +56,6 @@ namespace MetaAudio
 
   sfx_t* AudioEngine::S_FindName(char* name, int* pfInCache)
   {
-      if (strstr(name, ".ogg"))
-          int test = 1;
-
     try
     {
       sfx_t* sfx = nullptr;
@@ -113,7 +110,9 @@ namespace MetaAudio
         S_FreeCache(sfx);
       }
 
-      sfx->prefix = 0; //unknown, nightfire uses this
+      sfx->is_vox_file = strstr(name, ".lwv"); //nightfire uses this
+      sfx->gbx_sample_data = nullptr;
+      sfx->gbx_sound_handle = -1;
 
       strncpy_s(sfx->name, name, sizeof(sfx->name) - 1);
       sfx->name[sizeof(sfx->name) - 1] = 0;
@@ -832,6 +831,8 @@ namespace MetaAudio
     }
   }
 
+  extern std::shared_ptr<SoundLoader> m_loader;
+
   void AudioEngine::S_Init()
   {
     S_Startup();
@@ -869,6 +870,40 @@ namespace MetaAudio
 
     channel_manager = alure::MakeUnique<ChannelManager>();
     vox = alure::MakeUnique<VoxManager>(this, m_loader);
+
+#if 0
+    int len;
+    byte* file = g_pEngfuncs->COM_LoadHeapFile("sound/weapons/taser_fire.wav", &len);
+    CGBWav gbwav;
+    gbwav.getWavInfo("sound/weapons/taser_fire.wav", file, len);
+    g_pEngfuncs->COM_FreeFile(file);
+
+    file = g_pEngfuncs->COM_LoadHeapFile("sound/ambience/bg_crickets.wav", &len);
+    CGBWav gbwav2;
+    gbwav2.getWavInfo("sound/ambience/bg_crickets.wav", file, len);
+    g_pEngfuncs->COM_FreeFile(file);
+
+    file = g_pEngfuncs->COM_LoadHeapFile("sound/bond/Bond_ Escape14.wav", &len);
+    CGBWav gbwav3;
+    gbwav3.getWavInfo("sound/bond/Bond_ Escape14.wav", file, len);
+    g_pEngfuncs->COM_FreeFile(file);
+
+    file = g_pEngfuncs->COM_LoadHeapFile("sound/castle_guard/CG_alerted2.lwv", &len);
+    CGBWav gbwav4;
+    gbwav4.getWavInfo("sound/castle_guard/CG_alerted2.lwv", file, len);
+    g_pEngfuncs->COM_FreeFile(file);
+
+    file = g_pEngfuncs->COM_LoadHeapFile("sound/weapons/test_stereo.wav", &len);
+    CGBWav gbwav5;
+    gbwav5.getWavInfo("sound/weapons/test_stereo.wav", file, len);
+    g_pEngfuncs->COM_FreeFile(file);
+
+    auto test = S_FindName("sound/ambience/bg_crickets.wav", 0);
+    m_loader->S_LoadSound(test, 0);
+#endif
+
+    auto test = S_FindName("sound/gadgets/taser_shocking.wav", 0);
+    m_loader->S_LoadSound(test, 0);
   }
 
   std::shared_ptr<IOcclusionCalculator> AudioEngine::GetOccluder()

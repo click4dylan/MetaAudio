@@ -45,7 +45,7 @@ namespace MetaAudio
         (offset < 0 && -offset <= off_type(gptr() - eback())))
       {
         auto initialPos = g_pNightfireFileSystem->COM_FileTell(mFile);
-        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), (GbxFileSeekBehavior)seekType);
+        g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), seekType);
         auto newPos = g_pNightfireFileSystem->COM_FileTell(mFile);
         if (newPos - initialPos != offset)
         {
@@ -58,14 +58,13 @@ namespace MetaAudio
       break;
 
     case std::ios_base::end:
-      offset += mFileLength;
+      offset += g_pNightfireFileSystem->COM_FileSize(mFile);
       break;
 
     default:
       return traits_type::eof();
     }
-
-    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), (GbxFileSeekBehavior)seekType);
+    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(offset), seekType);
 
     auto curPosition = g_pNightfireFileSystem->COM_FileTell(mFile);
 
@@ -80,7 +79,7 @@ namespace MetaAudio
       return traits_type::eof();
     }
 
-    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(pos), GbxFileSeekBehavior::SEEK_FROM_START);
+    g_pNightfireFileSystem->COM_FileSeek(mFile, static_cast<int>(pos), SEEK_SET);
 
     if (g_pNightfireFileSystem->COM_EndOfFile(mFile))
     {

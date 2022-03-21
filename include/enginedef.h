@@ -1,13 +1,64 @@
 #pragma once
 #include "alure2.h"
 
+class CGBWav
+{
+public:
+	int m_samplerate;
+	int m_channels;
+	int m_channels2; //same as m_channels
+	int m_unknown; //-1
+	int m_datasize;
+	int m_headersize;
+
+	
+	static unsigned char* m_pData;
+	static unsigned char* m_iffEnd;
+	static unsigned char* m_lastChunk;
+	static unsigned char m_iffData;
+	static int m_iffChunkLen;
+	static void findNextChunk(const char* tag)
+	{
+		for (;;)
+		{
+			m_pData = m_lastChunk;
+			if (m_lastChunk >= m_iffEnd)
+			{
+				m_pData = nullptr;
+				return;
+			}
+			m_pData = m_lastChunk + 4;
+			DWORD data1 = m_lastChunk[5];
+			DWORD data2 = m_lastChunk[7];
+			DWORD data3 = m_lastChunk[4] + (data1 << 8);
+			DWORD data4 = m_lastChunk[6] << 16;
+			m_pData = m_lastChunk + 8;
+			int chunklen = data3 + data4 + (data2 << 24);
+			m_iffChunkLen = chunklen;
+			if (chunklen < 0)
+				break;
+			m_pData = m_lastChunk;
+			m_lastChunk += ((chunklen + 1) & 0xFFFFFFFE) + 8;
+			int result = !strncmp((const char*)m_pData, tag, 4);
+			if (!result)
+				return;
+		}
+	}
+	void getWavInfo(const char* name, unsigned char* heapfile, long size);
+};
+
+#pragma pack(push, 4)
 struct sfx_t
 {
-  char prefix;
+  bool is_vox_file; //file_extension == .lmv
   char name[MAX_QPATH];
   cache_user_t cache;
   int servercount;
+  void* gbx_sample_data;
+  int gbx_sound_handle;
 };
+//size: 0x54
+#pragma pack(pop)
 
 struct sfxcache_t
 {

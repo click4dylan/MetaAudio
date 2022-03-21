@@ -51,6 +51,7 @@ inline bool HookFunctionWithMinHook(LPVOID pFunctionAddress, LPVOID pDetourAddre
 	bool result = MH_EnableHook(pFunctionAddress) == MH_OK;
 	if (!result)
 		DebugBreak();
+	return result;
 }
 
 inline uintptr_t RelativeToAbsolute(uintptr_t address)
