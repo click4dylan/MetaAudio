@@ -163,6 +163,25 @@ namespace MetaAudio
             int indexes_processed = 0;
             vec3_t first_coord;
             vec3_t last_coord;
+            int numTriangles = numindices / 3;
+            for (int i = 0; i < numTriangles; ++i) {
+                vec3_t& coord1 = mapModel->verts[firstvertex + mapModel->indices[firstindex + (i * 3)]];
+                vec3_t& coord2 = mapModel->verts[firstvertex + mapModel->indices[firstindex + (i * 3) + 1]];
+                vec3_t& coord3 = mapModel->verts[firstvertex + mapModel->indices[firstindex + (i * 3) + 2]];
+
+                bsp_wires.emplace_back(coord1, coord2);
+                bsp_wires.emplace_back(coord2, coord3);
+                bsp_wires.emplace_back(coord3, coord1);
+
+                // Do something with these three coords
+            }
+#if 0
+            //wind around the face
+            vec3_t* vertex = &mapModel->verts[firstvertex];
+            int* indices = (int*)&mapModel->indices[firstindex];
+            int indexes_processed = 0;
+            vec3_t first_coord;
+            vec3_t last_coord;
             while (indexes_processed < numindices)
             {
                 vec3_t coord;
@@ -202,6 +221,7 @@ namespace MetaAudio
 
             if (indexes_processed)
                 bsp_wires.emplace_back(last_coord, first_coord);
+#endif
 #endif
 
             { // generate indices

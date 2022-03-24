@@ -133,7 +133,8 @@ namespace MetaAudio
           if (radius == 0.0f && sent->model)
           {
               if (!strcmp(ch->sfx->name, "weapons/grenade_explode.wav")
-                  && !strcmp(sent->model->name, "models/w_grenade_projectile.mdl"))
+                  && (!strcmp(sent->model->name, "models/w_grenade_projectile.mdl")
+                      || !strcmp(sent->model->name, "models/w_rocket.mdl")))
               {
                   radius = 75.0f;
               }
