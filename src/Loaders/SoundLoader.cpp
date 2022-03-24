@@ -45,17 +45,26 @@ namespace MetaAudio
       for (const alure::String& extension : MetaAudio::LocalAudioDecoder::SupportedExtensions)
       {
         new_name.replace(char_index, new_name.npos, extension);
+#if 0
+        // fix esp not saved across function call..
+        auto dec = context.createDecoder(new_name);
+        if (dec)
+            valid_file = true;
+        else
+            g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s. Invalid file name.\n", m_function_name.c_str(), new_name.c_str());
+#else
         try
         {
-          auto dec = context.createDecoder(new_name);
-          valid_file = true;
-          break;
+            auto dec = context.createDecoder(new_name);
+            valid_file = true;
+            break;
         }
         catch (const std::runtime_error& error)
         {
-          g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s. %s.\n", m_function_name.c_str(), new_name.c_str(), error.what());
-          valid_file = false;
+            g_pEngfuncs->Con_DPrintf("%s: Couldn't load %s. %s.\n", m_function_name.c_str(), new_name.c_str(), error.what());
+            valid_file = false;
         }
+#endif
       }
     }
     else

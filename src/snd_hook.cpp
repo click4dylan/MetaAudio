@@ -96,7 +96,9 @@ void S_FillAddress()
     gAudEngine.S_FreeChannel = (void(*)(channel_t*))FindMemoryPattern(g_dwEngineBase, "56 57 8b ? ? ? 83 ? ? ? 75 ? 8b ? 2b ? 83", false);
     gAudEngine.CL_Parse_RoomType = (int(*)())(FindMemoryPattern(g_dwEngineBase, "83 C4 0C 5E C3 90 90 90 90 90 E9", false) + 0xA);
 
+#ifdef _DEBUG
     gAudEngine.Sys_Error = (void(*)(char*, ...))FindMemoryPattern(g_dwEngineBase, "8B 4C 24 04 81 EC 00 04 00 00 8D 84 24 08 04 00 00 50 51 68 00 04 00 00 8D 54 24 0C 52 FF 15 ? ? ? ? A0 ? ? ? ? 84 C0", false);
+#endif
 
     //addr = (DWORD)g_pMetaHookAPI->SearchPattern((void*)gAudEngine.S_FreeChannel, 0x50, "\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04", Sig_Length("\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04"));
     //Sig_AddrNotFound(VoiceSE_NotifyFreeChannel);

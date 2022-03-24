@@ -463,7 +463,7 @@ namespace MetaAudio
       }
       else if (strstr(sfx->name, "weapons/ric"))
       {
-          return g_pEngfuncs->RandomLong(80, 120);
+          return g_pEngfuncs->RandomLong(90, 110);
       }
 
       return pitch;
@@ -942,6 +942,9 @@ namespace MetaAudio
     gAudEngine.S_Shutdown();
 
     // unregister cvars
+    // this crashes the game..
+    // engine seems to already be unloaded before we call this
+#if 0
     if (room_type)
         g_pEngfuncs->DestroyConsoleVariableClient(&roomtype);
     if (room_off)
@@ -966,6 +969,7 @@ namespace MetaAudio
     g_pEngfuncs->UnregisterClient(&fAL_ResetEFX);
     g_pEngfuncs->UnregisterClient(&fAL_BasicDevices);
     g_pEngfuncs->UnregisterClient(&fAL_FullDevices);
+#endif
   }
 
   // Nightfire

@@ -84,6 +84,12 @@ namespace MetaAudio
 
   std::vector<BSPLine> bsp_wires;
 
+  // let bond.exe access this for rendering directly for testing
+  extern "C" __declspec(dllexport) std::vector<BSPLine>& GetMapAudioMesh()
+  {
+      return bsp_wires;
+  }
+
   void SteamAudioMapMeshLoader::drawmesh()
   {
       int drawn = 0;
