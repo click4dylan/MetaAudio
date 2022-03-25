@@ -44,6 +44,7 @@ DWORD g_dwEngineBuildnum;
 NightfirePlatformFuncs* g_pNightfirePlatformFuncs;
 NightfireFileSystem* g_pNightfireFileSystem;
 bool g_bMetaAudioInitialized = false;
+bool g_bMetaAudioPaused = false;
 
 // nightfire methods..
 extern "C" __declspec(dllexport) void __cdecl StartMetaAudio(unsigned long hEngineDLL, NightfirePlatformFuncs* platform, NightfireFileSystem* filesystem, cl_exportfuncs_t * pExportFunc, cl_enginefunc_t * pEngineFuncs)
@@ -104,4 +105,12 @@ extern "C" __declspec(dllexport) void __cdecl ShutdownMetaAudio()
     }
     MH_DisableHook(0);
     MH_Uninitialize();
+}
+extern "C" __declspec(dllexport) void __cdecl PauseMetaAudio()
+{
+    g_bMetaAudioPaused = true;
+}
+extern "C" __declspec(dllexport) void __cdecl ResumeMetaAudio()
+{
+    g_bMetaAudioPaused = false;
 }

@@ -16,6 +16,7 @@ IConsoleVariable occluder(CVAR_BOOL, "al_occluder", "", "1", FCVAR_EXTDLL);
 IConsoleVariable roomtype(CVAR_INT, "room_type", "", "0", FCVAR_EXTDLL);
 IConsoleVariable roomoff(CVAR_BOOL, "room_off", "", "0", FCVAR_EXTDLL);
 IConsoleVariable waterroomtype(CVAR_INT, "waterroom_type", "", "14", FCVAR_EXTDLL);
+extern bool g_bMetaAudioPaused;
 
 namespace MetaAudio
 {
@@ -333,7 +334,7 @@ namespace MetaAudio
       AL_CopyVector(up, orientation + 3);
 
       alure::Listener al_listener = al_context->getListener();
-      if (openal_mute)
+      if (openal_mute || g_bMetaAudioPaused)
       {
         al_listener.setGain(0.0f);
       }
