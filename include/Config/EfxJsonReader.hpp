@@ -5,6 +5,9 @@
 
 #include "picojson.h"
 #include "efx-presets.h"
+#ifdef WINXP
+#include <clamp.h>
+#endif
 
 namespace MetaAudio
 {
@@ -63,24 +66,42 @@ namespace MetaAudio
     int Get<int>(const picojson::value& value, const std::string& effect_name)
     {
       return static_cast<int>(
-        std::clamp(
+#ifdef WINXP
+        CLAMP(
           Get<int64_t>(value, effect_name),
           static_cast<int64_t>(std::numeric_limits<int>::lowest()),
           static_cast<int64_t>(std::numeric_limits<int>::max())
           )
         );
+#else
+          std::clamp(
+              Get<int64_t>(value, effect_name),
+              static_cast<int64_t>(std::numeric_limits<int>::lowest()),
+              static_cast<int64_t>(std::numeric_limits<int>::max())
+          )
+          );
+#endif
     }
 
     template<>
     float Get<float>(const picojson::value& value, const std::string& effect_name)
     {
       return static_cast<float>(
+#ifdef WINXP
+          CLAMP(
+              Get<double>(value, effect_name),
+              static_cast<double>(std::numeric_limits<float>::lowest()),
+              static_cast<double>(std::numeric_limits<float>::max())
+          )
+          );
+#else
         std::clamp(
           Get<double>(value, effect_name),
           static_cast<double>(std::numeric_limits<float>::lowest()),
           static_cast<double>(std::numeric_limits<float>::max())
           )
         );
+#endif
     }
 
     template<class T>

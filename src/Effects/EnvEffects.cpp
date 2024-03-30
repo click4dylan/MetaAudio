@@ -12,6 +12,9 @@
 #include "Workarounds/NoWorkarounds.hpp"
 #include "Workarounds/XFiWorkarounds.hpp"
 #include "SoundSources/BaseSoundSource.hpp"
+#ifdef WINXP
+#include <clamp.h>
+#endif
 
 extern ConsoleVariable* sxroomwater_type;
 extern ConsoleVariable* sxroom_type;
@@ -157,8 +160,13 @@ namespace MetaAudio
             );
 
           ch->MidGain.target = occlusion.Mid;
+#ifdef WINXP
+          ch->LowGain.target = CLAMP(occlusion.Mid ? occlusion.Low / occlusion.Mid : occlusion.Low, 0.0f, 1.0f);
+          ch->HighGain.target = CLAMP(occlusion.Mid ? occlusion.High / occlusion.Mid : occlusion.High, 0.0f, 1.0f);
+#else
           ch->LowGain.target = std::clamp(occlusion.Mid ? occlusion.Low / occlusion.Mid : occlusion.Low, 0.0f, 1.0f);
           ch->HighGain.target = std::clamp(occlusion.Mid ? occlusion.High / occlusion.Mid : occlusion.High, 0.0f, 1.0f);
+#endif
         }
       }
       else

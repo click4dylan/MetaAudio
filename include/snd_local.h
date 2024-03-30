@@ -156,10 +156,8 @@ class CAL_Version : public ConsoleFunction
 public:
     virtual void run(unsigned int numargs, const char** args);
     CAL_Version(const char* _name, const char* _description = "", unsigned int _flags = 0)
+        : ConsoleFunction(_name, _description, _flags)
     {
-        name = _name;
-        description = _description;
-        flags = _flags;
     }
 };
 
@@ -170,10 +168,8 @@ class CAL_ResetEFX : public ConsoleFunction
 public:
     virtual void run(unsigned int numargs, const char** args);
     CAL_ResetEFX(const char* _name, const char* _description = "", unsigned int _flags = 0)
+        : ConsoleFunction(_name, _description, _flags)
     {
-        name = _name;
-        description = _description;
-        flags = _flags;
     }
 };
 extern CAL_ResetEFX fAL_ResetEFX;
@@ -183,10 +179,8 @@ class CAL_BasicDevices : public ConsoleFunction
 public:
     virtual void run(unsigned int numargs, const char** args);
     CAL_BasicDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
+        : ConsoleFunction(_name, _description, _flags)
     {
-        name = _name;
-        description = _description;
-        flags = _flags;
     }
 };
 extern CAL_BasicDevices fAL_BasicDevices;
@@ -196,10 +190,8 @@ class CAL_FullDevices : public ConsoleFunction
 public:
     virtual void run(unsigned int numargs, const char** args);
     CAL_FullDevices(const char* _name, const char* _description = "", unsigned int _flags = 0)
+        : ConsoleFunction(_name, _description, _flags)
     {
-        name = _name;
-        description = _description;
-        flags = _flags;
     }
 };
 extern CAL_FullDevices fAL_FullDevices;

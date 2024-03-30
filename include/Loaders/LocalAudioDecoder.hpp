@@ -2,6 +2,10 @@
 
 #include "snd_local.h"
 
+#ifdef WINXP
+#include <unordered_map>
+#endif
+
 namespace MetaAudio
 {
   class LocalAudioDecoder final : public alure::MessageHandler

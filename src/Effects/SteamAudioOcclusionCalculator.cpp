@@ -1,6 +1,9 @@
 #include "Effects/SteamAudioOcclusionCalculator.hpp"
 #include "pm_defs.h"
 #include "Utilities/VectorUtils.hpp"
+#ifdef WINXP
+#include <clamp.h>
+#endif
 
 namespace MetaAudio
 {
@@ -33,6 +36,9 @@ namespace MetaAudio
 
     IPLSource source{ toIPLVector3(&audioSourcePosition) };
     auto env = meshLoader->CurrentEnvironment();
+    if (!env)
+        return OcclusionFrequencyGain{ 1.0f, 1.0f, 1.0f };
+
     IPLDirectSoundPath result{};
     result = gSteamAudio.iplGetDirectSoundPath(
       env,
@@ -73,7 +79,11 @@ namespace MetaAudio
       }
     }
 
+#ifdef WINXP
+    auto getFactor = [&](size_t index) { return CLAMP((result.occlusionFactor + (1 - result.occlusionFactor) * result.transmissionFactor[index]) / attenuationMultiplier, 0.0f, 1.0f); };
+#else
     auto getFactor = [&](size_t index) { return std::clamp((result.occlusionFactor + (1 - result.occlusionFactor) * result.transmissionFactor[index]) / attenuationMultiplier, 0.0f, 1.0f); };
+#endif
     auto ret = OcclusionFrequencyGain{ getFactor(0), getFactor(1), getFactor(2) };
     return ret;
   }

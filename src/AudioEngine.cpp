@@ -318,7 +318,7 @@ namespace MetaAudio
       al_context->update();
       if (sa_meshloader)
       {
-        sa_meshloader->update();
+          sa_meshloader->update();
       }
       channel_manager->ClearFinished();
       channel_manager->ClearLoopingRemovedEntities();
@@ -824,8 +824,14 @@ namespace MetaAudio
       sa_meshloader.reset();
       if (sa_context)
       {
+#ifdef THREADED_MESH_LOADER
+        sa_meshloader->update_mutex.lock();
+#endif
         gSteamAudio.iplDestroyContext(&sa_context);
         sa_context = nullptr;
+#ifdef THREADED_MESH_LOADER
+        sa_meshloader->update_mutex.unlock();
+#endif
       }
       gSteamAudio.iplCleanup();
       gSteamAudio = SteamAudio();

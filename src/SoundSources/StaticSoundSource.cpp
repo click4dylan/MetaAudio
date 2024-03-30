@@ -7,7 +7,11 @@ namespace MetaAudio
   StaticSoundSource::StaticSoundSource(const alure::Buffer& buffer, alure::Source& source): m_buffer(buffer)
   {
     al_xfi_workaround = g_pEngfuncs->GetConsoleVariableClient("al_xfi_workaround");
+#ifdef WINXP
+    m_source = alure::AutoObj<alure::Source>(source); //vs2015 xp
+#else
     m_source = alure::AutoObj(source);
+#endif
     m_frequency = buffer.getFrequency();
     m_length = buffer.getLength();
   }

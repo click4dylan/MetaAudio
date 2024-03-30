@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CBFCD4E2-86CC-3C9E-A191-55361335BA35}</ProjectGuid>
+    <ProjectGuid>{4AA1F5BD-2F74-398C-BAB2-C996B6A88B02}</ProjectGuid>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
@@ -39,6 +39,7 @@
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
+    <VCToolsVersion>14.29.30133</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
@@ -105,11 +106,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="E:\nightfire_sdk\MetaAudio\CMakeLists.txt">
+    <CustomBuild Include="E:\nightfire_sdk\metaaudio\CMakeLists.txt">
       <StdOutEncoding>UTF-8</StdOutEncoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/nightfire_sdk/MetaAudio/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/nightfire_sdk/metaaudio/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/MetaAudio -BE:/nightfire_sdk/MetaAudio --check-stamp-file E:/nightfire_sdk/MetaAudio/CMakeFiles/generate.stamp
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/metaaudio -BE:/nightfire_sdk/metaaudio --check-stamp-file E:/nightfire_sdk/metaaudio/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -117,12 +118,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\nightfire_sdk\MetaAudio\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\nightfire_sdk\metaaudio\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/nightfire_sdk/MetaAudio/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/nightfire_sdk/metaaudio/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/MetaAudio -BE:/nightfire_sdk/MetaAudio --check-stamp-file E:/nightfire_sdk/MetaAudio/CMakeFiles/generate.stamp
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/metaaudio -BE:/nightfire_sdk/metaaudio --check-stamp-file E:/nightfire_sdk/metaaudio/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -130,12 +131,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\nightfire_sdk\MetaAudio\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\nightfire_sdk\metaaudio\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule E:/nightfire_sdk/MetaAudio/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule E:/nightfire_sdk/metaaudio/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/MetaAudio -BE:/nightfire_sdk/MetaAudio --check-stamp-file E:/nightfire_sdk/MetaAudio/CMakeFiles/generate.stamp
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/metaaudio -BE:/nightfire_sdk/metaaudio --check-stamp-file E:/nightfire_sdk/metaaudio/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -143,12 +144,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\nightfire_sdk\MetaAudio\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\nightfire_sdk\metaaudio\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule E:/nightfire_sdk/MetaAudio/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule E:/nightfire_sdk/metaaudio/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/MetaAudio -BE:/nightfire_sdk/MetaAudio --check-stamp-file E:/nightfire_sdk/MetaAudio/CMakeFiles/generate.stamp
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/nightfire_sdk/metaaudio -BE:/nightfire_sdk/metaaudio --check-stamp-file E:/nightfire_sdk/metaaudio/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -156,110 +157,110 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\MetaAudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\nightfire_sdk\MetaAudio\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeCXXCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeRCCompiler.cmake;E:\nightfire_sdk\metaaudio\CMakeFiles\3.20.21032501-MSVC_2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\nightfire_sdk\metaaudio\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\ZERO_CHECK.vcxproj">
-      <Project>{1988AEFB-5129-331D-AE9A-441B7CB43255}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\ZERO_CHECK.vcxproj">
+      <Project>{475D0A3B-590B-32A8-BB4F-47276DCCFCD9}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\MetaAudio.vcxproj">
-      <Project>{54372A60-7C60-3A64-86DF-0443A8B8274F}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\MetaAudio.vcxproj">
+      <Project>{18861E68-9FB3-33FC-B166-1B67DD1135F7}</Project>
       <Name>MetaAudio</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\OpenAL.vcxproj">
-      <Project>{1F461F71-7FDC-3626-9580-A9525713E1FA}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\OpenAL.vcxproj">
+      <Project>{86539B01-5E08-3ED1-A191-627928C13377}</Project>
       <Name>OpenAL</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alconvolve.vcxproj">
-      <Project>{5A57EF9B-8306-3B27-9A0F-3D4308367B92}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alconvolve.vcxproj">
+      <Project>{FF54E247-3B4E-341E-89FB-3B1FF23F1BE0}</Project>
       <Name>alconvolve</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alhrtf.vcxproj">
-      <Project>{A37DBDAE-BCDA-3795-94A5-42E4E33C8BB8}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alhrtf.vcxproj">
+      <Project>{566849C2-7B67-3F14-B441-77FA4FB234AA}</Project>
       <Name>alhrtf</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\allatency.vcxproj">
-      <Project>{9DAA5B0F-4A6E-3C60-BB66-5C39B058D6F9}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\allatency.vcxproj">
+      <Project>{DA1220ED-9111-3ECD-92C4-79EDC00BCAE1}</Project>
       <Name>allatency</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alloopback.vcxproj">
-      <Project>{F1E9CE7C-E1BB-3EB3-879E-D26B9E3FC53A}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alloopback.vcxproj">
+      <Project>{24AEA680-0E92-3F92-A350-F2B89F3A93F2}</Project>
       <Name>alloopback</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\almultireverb.vcxproj">
-      <Project>{8DA63646-1481-3CB1-A43F-1E91796EA519}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\almultireverb.vcxproj">
+      <Project>{92227F34-EC24-3211-BD08-4CAD03943C82}</Project>
       <Name>almultireverb</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alplay.vcxproj">
-      <Project>{9D5ADC9D-9904-390A-BA92-6EB01D99A92A}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alplay.vcxproj">
+      <Project>{A52A5CF7-C33F-389C-BB78-0C8EC2D91415}</Project>
       <Name>alplay</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alrecord.vcxproj">
-      <Project>{76AFBC39-B2A8-3F3B-ADF2-164302F2B22B}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alrecord.vcxproj">
+      <Project>{86350709-08F2-32C6-8FFD-64F19E472312}</Project>
       <Name>alrecord</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alreverb.vcxproj">
-      <Project>{A27173F5-8E39-3154-AFBB-30EDB1049DE5}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alreverb.vcxproj">
+      <Project>{24E847F0-66E1-3704-8B27-65CB128E1886}</Project>
       <Name>alreverb</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alstream.vcxproj">
-      <Project>{B0545B18-9368-3886-A558-37C407BCC8A4}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alstream.vcxproj">
+      <Project>{A252D3F6-C94C-394B-B638-D255D5BC0E43}</Project>
       <Name>alstream</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\alstreamcb.vcxproj">
-      <Project>{C129D600-D39D-3558-88B9-DEDF49FE91C9}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\alstreamcb.vcxproj">
+      <Project>{831D502D-E7E1-3160-AC57-11E81783B5AD}</Project>
       <Name>alstreamcb</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\altonegen.vcxproj">
-      <Project>{F2AE861B-F510-3965-8B49-1CE5550E3712}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\altonegen.vcxproj">
+      <Project>{9C1E6FC6-0190-32D3-AEAF-EDA84B860E08}</Project>
       <Name>altonegen</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-enum.vcxproj">
-      <Project>{07E2CA70-05CB-3CB0-AD0A-2A9A8E5A1D97}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-enum.vcxproj">
+      <Project>{E948C7F0-4EAA-3318-BDCE-A36AAC77048E}</Project>
       <Name>alure-enum</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-hrtf.vcxproj">
-      <Project>{7B663CA3-91EA-39C0-9FD2-1D0306727E08}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-hrtf.vcxproj">
+      <Project>{60BD6603-7882-316B-B0C6-3D48401382B8}</Project>
       <Name>alure-hrtf</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-play.vcxproj">
-      <Project>{8BCCB466-EB4E-333F-8D8C-9660677A0AF2}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-play.vcxproj">
+      <Project>{633B8859-34C7-3E26-9EA7-E613DA67D9EF}</Project>
       <Name>alure-play</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-play3d.vcxproj">
-      <Project>{AA9807E4-DC08-38A7-BFC8-963CD8053FBF}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-play3d.vcxproj">
+      <Project>{0EE2BA10-2B22-34E1-BA65-F6D59DF94420}</Project>
       <Name>alure-play3d</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-reverb.vcxproj">
-      <Project>{3B588B80-6DEC-35C8-8FD8-44AD9F6EA157}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-reverb.vcxproj">
+      <Project>{FCF9E63D-5C3D-3BFC-90CC-7FA055E586CE}</Project>
       <Name>alure-reverb</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure-stream.vcxproj">
-      <Project>{ABA77212-DBA0-3DF6-8C83-FF57C3E36CDE}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure-stream.vcxproj">
+      <Project>{AF85EB3C-E0CD-3512-A0A9-8365009F9477}</Project>
       <Name>alure-stream</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure2.vcxproj">
-      <Project>{39F8F0FB-8F71-34D2-BABD-6F931A41AB2A}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure2.vcxproj">
+      <Project>{A3240121-AFF9-3110-BF04-4F8C3A391662}</Project>
       <Name>alure2</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\alure\alure2_s.vcxproj">
-      <Project>{7A996652-EBEB-3E50-B5D4-CF668CB774EB}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\alure\alure2_s.vcxproj">
+      <Project>{579C6E1E-B6EC-3078-A32D-4DB2E6372C15}</Project>
       <Name>alure2_s</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\metahook\metahook.vcxproj">
-      <Project>{75AABCF1-42E5-3B83-84CD-063F68DAB006}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\metahook\metahook.vcxproj">
+      <Project>{B6976687-431D-3996-937E-63977DD4F767}</Project>
       <Name>metahook</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\nightfire_sdk\MetaAudio\externals\openal-soft\openal-info.vcxproj">
-      <Project>{ADBBC968-67A9-3C87-84FA-241091EFE121}</Project>
+    <ProjectReference Include="E:\nightfire_sdk\metaaudio\externals\openal-soft\openal-info.vcxproj">
+      <Project>{2BA8DE03-048E-35BF-B33F-3323854AAACB}</Project>
       <Name>openal-info</Name>
     </ProjectReference>
   </ItemGroup>

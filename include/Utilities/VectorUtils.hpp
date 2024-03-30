@@ -9,6 +9,37 @@ namespace MetaAudio
   // HL seems to use inches, convert to meters.
   static constexpr float AL_UnitToMeters = 0.0254f;
 
+#ifdef WINXP
+  //vs2015 xp
+  static Vector3 GoldSrc_UnpackVector(const Vector3& vector)
+  {
+      return { -vector.Z / AL_UnitToMeters, -vector.X / AL_UnitToMeters, vector.Y / AL_UnitToMeters };
+  }
+
+  static alure::Vector3 AL_UnpackVector(float* vector)
+  {
+      return { -vector[1] * AL_UnitToMeters, vector[2] * AL_UnitToMeters, -vector[0] * AL_UnitToMeters };
+  }
+
+  static alure::Vector3 AL_CopyVector(float* vector)
+  {
+      return { -vector[1], vector[2], -vector[0] };
+  }
+
+  static void AL_CopyVector(float* from, float* to)
+  {
+      to[0] = -from[1];
+      to[1] = from[2];
+      to[2] = -from[0];
+  }
+
+  static void VectorCopy(float* from, float* to)
+  {
+      to[0] = from[0];
+      to[1] = from[1];
+      to[2] = from[2];
+  }
+#else
   static constexpr Vector3 GoldSrc_UnpackVector(const Vector3& vector)
   {
     return {-vector.Z / AL_UnitToMeters, -vector.X / AL_UnitToMeters, vector.Y / AL_UnitToMeters};
@@ -37,4 +68,5 @@ namespace MetaAudio
     to[1] = from[1];
     to[2] = from[2];
   }
+#endif
 }

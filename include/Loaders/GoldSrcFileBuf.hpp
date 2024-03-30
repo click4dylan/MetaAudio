@@ -2,6 +2,7 @@
 
 #include "FileSystem.h"
 #include "alure2.h"
+//#include <NightfireFileSystem.h>
 
 namespace MetaAudio
 {

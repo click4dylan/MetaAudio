@@ -4,6 +4,10 @@
 #include "alure2.h"
 #include "snd_local.h"
 
+#ifdef WINXP
+#include <unordered_map>
+#endif
+
 namespace MetaAudio
 {
   class AudioCache final

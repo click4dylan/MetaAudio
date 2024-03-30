@@ -1,4 +1,4 @@
-# Install script for directory: E:/nightfire_sdk/MetaAudio
+# Install script for directory: E:/nightfire_sdk/metaaudio
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,9 +34,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("E:/nightfire_sdk/MetaAudio/externals/openal-soft/cmake_install.cmake")
-  include("E:/nightfire_sdk/MetaAudio/externals/alure/cmake_install.cmake")
-  include("E:/nightfire_sdk/MetaAudio/externals/metahook/cmake_install.cmake")
+  include("E:/nightfire_sdk/metaaudio/externals/openal-soft/cmake_install.cmake")
+  include("E:/nightfire_sdk/metaaudio/externals/alure/cmake_install.cmake")
+  include("E:/nightfire_sdk/metaaudio/externals/metahook/cmake_install.cmake")
 
 endif()
 
@@ -48,5 +48,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/nightfire_sdk/MetaAudio/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/nightfire_sdk/metaaudio/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

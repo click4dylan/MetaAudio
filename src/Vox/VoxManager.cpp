@@ -466,7 +466,11 @@ namespace MetaAudio
     }
 
     // get directory from string, advance psz
+#ifdef WINXP
+    alure::Vector<std::tuple<alure::StringView, alure::StringView>> sentences = GetDirectory(psz);
+#else
     auto sentences = GetDirectory(psz);
+#endif
 
     // parse sentences
     for (const auto& sentence : sentences)

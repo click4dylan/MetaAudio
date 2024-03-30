@@ -24,7 +24,9 @@ namespace MetaAudio
    ConsoleVariable* snd_show = nullptr;
 
     //active control
+  public:
     ConsoleVariable* room_type = nullptr;
+  private:
     ConsoleVariable* room_off = nullptr;
     ConsoleVariable* waterroom_type = nullptr;
     ConsoleVariable* al_doppler = nullptr;

@@ -64,6 +64,7 @@ namespace MetaAudio
     IPLhandle sa_context;
 
     std::unique_ptr<ProcessedMap> current_map;
+    static void async_update(SteamAudioMapMeshLoader* thisptr, struct model_s* map);
 
     alure::Vector3 Normalize(const alure::Vector3& vector);
     float DotProduct(const alure::Vector3& left, const alure::Vector3& right);
@@ -77,8 +78,11 @@ namespace MetaAudio
     SteamAudioMapMeshLoader(IPLhandle sa_context, IPLSimulationSettings simulSettings);
 
     // Checks if map is current , if not update it
-    void update();
+    bool update();
     void drawmesh();
+#ifdef THREADED_MESH_LOADER
+    std::mutex update_mutex;
+#endif
 
     // get current scene data as an IPLhandle
     IPLhandle CurrentEnvironment();
